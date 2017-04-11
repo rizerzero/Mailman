@@ -1,0 +1,1 @@
+@include('partials.queues.table', ['list' => true])
