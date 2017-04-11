@@ -2,6 +2,7 @@
 @extends('partials.layout')
 
 @section('content')
+	<div class="col-sm-12">
     <div class="page-header">
     	<h1>Edit Options</h1>
     </div>
@@ -18,4 +19,5 @@
 	<input type="submit" class="btn btn-success" value="Update">
 	{{ csrf_field() }}
 	</form>
+	</div>
 @endsection

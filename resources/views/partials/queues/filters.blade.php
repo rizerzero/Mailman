@@ -1,5 +1,6 @@
 <form action="{{ action('QueueController@index') }}" method="GET">
-	<div class="form-group">
+
+	<div class="form-group col-sm-5">
 		<label for="status">Status</label>
 		<select name="status" class="form-control" id="">
 			@foreach($data->status as $k => $v)
@@ -9,7 +10,7 @@
 
 	</div>
 
-	<div class="form-group">
+	<div class="form-group col-sm-5">
 		<label for="list">List</label>
 
 		<select name="list" class="form-control" name="list">
@@ -20,5 +21,9 @@
 		</select>
 	</div>
 
-	<input type="submit">
+	<div class="form-group col-sm-2 text-right">
+		<label for="">&nbsp;</label>
+		<input type="submit" class="btn btn-success nolabel">
+	</div>
+
 </form>
