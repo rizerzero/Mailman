@@ -8,11 +8,20 @@ use Config;
 
 class OptionController extends Controller
 {
+    /**
+     * Display the options that a user is able to configure for the website
+     * @param  Option $options I think this is provided via DI - can't remember ... sorry.
+
+     */
     public function index(Option $options)
     {
     	return view('options.index')->withOptions($options->retreive());
     }
 
+    /**
+     * Update the database as well as the config file with the provided blocks
+     * @param  Request $request Http Request
+     */
     public function update(Request $request)
     {
 
@@ -39,6 +48,7 @@ class OptionController extends Controller
     		}
 
     	}
+
     	return redirect()->action('OptionController@index')->withSuccess('Options Updated Successfully!');
     }
 }

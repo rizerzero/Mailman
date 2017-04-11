@@ -11,6 +11,10 @@ use App\Entry;
 class MessageController extends Controller
 {
 
+    /**
+     * Display the messages whose parent is the provided list
+     * @param  integer $list The ID of the list to pull messages from
+     */
 	public function index($list) {
         try {
             $list = MailList::whereId($list)->firstOrFail();
@@ -21,6 +25,11 @@ class MessageController extends Controller
         }
 
 	}
+
+    /**
+     * Create a message for the provided list
+     * @param  integer $id THe id of the list to create messages for
+     */
     public function create($id)
     {
     	try {
@@ -33,6 +42,10 @@ class MessageController extends Controller
 
     }
 
+    /**
+     * Save the message for the list
+     * @param  Request $request Http request
+     */
     public function save(Request $request)
     {
     	try {
@@ -65,7 +78,11 @@ class MessageController extends Controller
 
     }
 
-
+    /**
+     * Edit the specified message
+     * @param  integer $list_id    The ID of the list that the message belongs to
+     * @param  integer $message_id The ID of the message to edit
+     */
     public function edit($list_id, $message_id)
     {
     	try {
@@ -79,6 +96,12 @@ class MessageController extends Controller
 
     }
 
+    /**
+     * Update the provided message
+     * @param  Request $request Http request
+     * @param  integer  $list    The ID of the list that the message belongs to
+     * @param  integer  $message The ID of the message to be updated
+     */
     public function update(Request $request, $list, $message)
     {
          $this->validate($request, [
@@ -109,6 +132,11 @@ class MessageController extends Controller
 
         return redirect()->back()->withSuccess('Message Updated!');
     }
+
+    /**
+     * Display a preview of the message
+     * @param  integer $message The ID of the message to be displayed
+     */
     public function render($message)
     {
         try {

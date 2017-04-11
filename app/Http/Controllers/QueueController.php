@@ -8,6 +8,10 @@ use App\MailList;
 
 class QueueController extends Controller
 {
+	/**
+	 * Display queue elements
+	 * @param  Request $request Includes GET Params filtering the data
+	 */
     public function index(Request $request)
     {
     	$queues = MailQueue::fromStatus($request->get('status'))->join('messages', 'messages.id', '=', 'mailqueues.message_id')->orderBy('messages.send_date', 'asc')->paginate(50);

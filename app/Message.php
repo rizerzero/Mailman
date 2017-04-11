@@ -35,29 +35,12 @@ class Message extends Model
         return $this->hasMany('App\MailQueue');
     }
 
+
     /**
-     * Determine if it is time to queue messages
-     * @return boolean
+     * Scope messages where the send date is less than the current timestamp
+     * @param  Builder $query Eloquent query builder
+     * @return Builder        Modified eloquent query
      */
-    // public function readyToSend()
-    // {
-
-    //     if(is_null($this->send_date)) {
-
-    //         return false;
-    //     }
-
-    //     $send_date = Carbon::parse($this->send_date);
-
-    //     if($send_date->lt(Carbon::now())) {
-    //         return true;
-    //     }
-
-
-    //     return false;
-
-    // }
-
     public function scopeReadyToSend($query)
     {
         return $query->where('send_date', '<', Carbon::now()->toDateTimeString());
@@ -173,19 +156,6 @@ class Message extends Model
 
     }
 
-    // public function getSendInterval()
-    // {
-    //     if(is_null($this->send_date))
-    //         return 0;
-
-    //     $list_date = $this->mailList->campaign_start;
-
-    //     $list_date_model = Carbon::parse($list_date);
-    //     $future_date_model = Carbon::parse($this->send_date);
-
-    //     return $list_date_model->diffInDays($future_date_model);
-
-    // }
 
     /**
      * Scope method to find messages from a certian position

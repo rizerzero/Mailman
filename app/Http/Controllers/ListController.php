@@ -10,6 +10,10 @@ use App\Entry;
 class ListController extends Controller
 {
 
+    /**
+     * Pause a campaign
+     * @param  int $id The ID of the campaign to be paused
+     */
     public function pauseCampaign($id)
     {
         try {
@@ -23,6 +27,10 @@ class ListController extends Controller
         }
     }
 
+    /**
+     * Resume a paused campaign
+     * @param  int $id The ID of the campaign to resume
+     */
     public function resumeCampaign($id) {
         try {
             $list = MailList::whereId($id)->firstOrFail();
@@ -34,12 +42,21 @@ class ListController extends Controller
         }
     }
 
+    /**
+     * Show all lists
+     */
 	public function index()
 	{
 		return view('lists.index')->with([
     		'lists' => MailList::all(),
     	]);
 	}
+
+    /**
+     * Show a single list resource
+     * @param  Request $request The HTTP request
+     * @param  int  $id      The id of the list to display
+     */
     public function single(Request $request, $id)
     {
     	try {
@@ -59,6 +76,10 @@ class ListController extends Controller
 
     }
 
+    /**
+     * Display the page used to import entries into a list
+     * @param  int $id The ID of the list to import values into
+     */
     public function import($id) {
 
         try {
@@ -77,6 +98,11 @@ class ListController extends Controller
         }
     }
 
+    /**
+     * Import entries into the active mail list
+     * @param  Request $request THe HTTP request, this includes the list ID And CSV data
+     * @return view           Return a confirmation modal before actually importing the list
+     */
     public function importEntries(Request $request) {
 
         try {
@@ -100,6 +126,11 @@ class ListController extends Controller
 
     }
 
+    /**
+     * After confirming the import of list entries, actually import them to the DB
+     * @param  Request $request HTTP Request
+     * @return redirect         Redirect with a status message
+     */
     public function saveEntries(Request $request)
     {
 
@@ -120,6 +151,10 @@ class ListController extends Controller
 
     }
 
+    /**
+     * Export the entries for a list - same format it came to us in
+     * @param  int $id The ID of the list to export entries from
+     */
     public function exportListEntries($id)
     {
         try {
@@ -134,6 +169,10 @@ class ListController extends Controller
         }
     }
 
+    /**
+     * Clear all entries from a list
+     * @param  int $id The ID of the list to wipe
+     */
     public function clearListEntries($id)
     {
         try {
@@ -147,6 +186,11 @@ class ListController extends Controller
         }
     }
 
+    /**
+     * Update the provided list (editing the list model)
+     * @param  Request $request Http Request
+     * @param  integer  $id      The ID of the model
+     */
     public function update(Request $request, $id)
     {
         try {
@@ -170,6 +214,11 @@ class ListController extends Controller
             return redirect()->back()->withError($e->getMessage());
         }
     }
+
+    /**
+     * Delete a list by ID
+     * @param  integer $id The ID of the list
+     */
     public function deleteList($id)
     {
         try {
@@ -185,11 +234,19 @@ class ListController extends Controller
         }
     }
 
+    /**
+     * Create a new list
+     */
     public function create()
     {
         return view('lists.create');
     }
 
+    /**
+     * Store a newly created list
+     * @param  Request $request Illuminate HTTP request
+     * @return [type]           [description]
+     */
     public function store(Request $request)
     {
         try {
@@ -214,6 +271,10 @@ class ListController extends Controller
 
     }
 
+    /**
+     * Start the provided list
+     * @param  integer $list The ID of the list to start
+     */
     public function startCampaign($list)
     {
         try {

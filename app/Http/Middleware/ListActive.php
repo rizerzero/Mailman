@@ -8,7 +8,7 @@ use App\MailList;
 class ListActive
 {
     /**
-     * Handle an incoming request.
+     * Determine if the list is active
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next

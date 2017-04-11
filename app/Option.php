@@ -12,8 +12,12 @@ class Option extends Model
 
     public $timestamps = false;
 
-
-    function scopeRetreive($query) {
+    /**
+     * Retreive the websites options in an array capable of being served and written as config values
+     * @param  Builder $query The eloquent query
+     * @return Builder
+     */
+   public function scopeRetreive($query) {
 	    $newArray = array();
 	    $array = $query->get()->mapWithKeys(function($item) {
             return [$item['key'] => $item['value']];
@@ -42,26 +46,48 @@ class Option extends Model
 	    return $newArray;
 	}
 
+	/**
+	 * Return the value for a dot seperated "config" value
+	 * @param  [type] $index [description]
+	 * @return [type]        [description]
+	 */
 	public function findByIndex($index)
 	{
 		return array_get($this->retreive(), $index);
 	}
 
-
+	/**
+	 * Returns the data for a specific category (mail, app, storage, etc)
+	 * @return array The configuration values for the category block
+	 */
 	private function getCategoryData()
 	{
 		return $this->findByIndex($this->category);
 	}
+
+	/**
+	 * Get the parent item for the configuration block
+	 * @return array
+	 */
 	private function getParent()
 	{
 		return  substr($this->key, 0, strrpos( $this->key, '.') );
 	}
 
+	/**
+	 * Get the key for a specific option
+	 * ex: mail.log = daily will return as mail.log
+	 * @return [type] [description]
+	 */
 	private function getOptionKey()
 	{
 		return last(explode('.', $this->key));
 
 	}
+
+	/**
+	 * Push changes to the configuration files
+	 */
 	public function propagateChange()
 	{
 

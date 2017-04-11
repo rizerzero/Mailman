@@ -8,6 +8,10 @@ use App\Entry;
 
 class SubscriptionController extends Controller
 {
+    /**
+     * Remove the customer from the mailing list
+     * @param  string $email This is a URL Safe Hashed string
+     */
     public function unsubscribe($email)
     {
 
