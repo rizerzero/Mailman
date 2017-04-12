@@ -25,8 +25,8 @@ class ListResponse {
         foreach($array as &$pair) {
             $split = explode(",", $pair);
             $obj = new \stdClass;
-            $obj->name = $split[0];
-            $obj->email = $split[1];
+            $obj->name = trim($split[0]);
+            $obj->email = trim($split[1]);
 
             $output[] = $obj;
         }

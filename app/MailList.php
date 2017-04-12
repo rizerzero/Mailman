@@ -50,6 +50,7 @@ class MailList extends Model
           $message->cancelQueuedMessage();
       }
 
+      return true;
    }
 
    /**
@@ -79,6 +80,7 @@ class MailList extends Model
         $message->resumeQueuedMessages();
       }
 
+      return true;
 
 
    }
@@ -89,6 +91,7 @@ class MailList extends Model
     */
     public function getListOpens()
     {
+
     return $this->messages->sum('opens');
     }
 
@@ -160,13 +163,9 @@ class MailList extends Model
 
    /**
     * Save entries that were inported via application.
-    * These should be an instance of ListResponse - in fact....
-    * Dear next developer that cares more than me,
-    * Please typehint the instance of App\ListResponse and use the output method inside of this function
-    * Because I honestly don't give a fuck anymore.
-    *
-    * Sincerely,
-    * Underpaid and underappreciated creator of this shit.
+    * This should be passed to the method from \App\ListResponse
+    * But since this data is shared between a couple requests
+    * There is no DRY way I can think of implementing this code
     * @param  array  $entries [description]
     * @return [type]          [description]
     */
@@ -183,6 +182,7 @@ class MailList extends Model
             $save[] = $listentry;
          }
       }
+
 
       $this->entries()->saveMany($save);
 
@@ -316,6 +316,8 @@ class MailList extends Model
             $queued->status = 1;
             $entry->mailQueue()->save($queued);
       }
+
+
    }
 }
 

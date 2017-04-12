@@ -14,7 +14,7 @@ class Message extends Model
 	protected $table = 'messages';
 
     protected $fillable = [
-    	'name','content','subject','mail_list_id','days_offset','message_time','send_date','deliveries','spam_complaints','clicks','opens'
+    	'name','content','subject','mail_list_id','days_offset','message_time','send_date','deliveries','spam_complaints','clicks','opens','position'
     ];
 
     /**
@@ -88,8 +88,10 @@ class Message extends Model
      */
     public function cancelQueuedMessage()
     {
-        if($this->readyToSend())
-            return false;
+        // if(Carbon::parse($this->send_date)->gt(Carbon::now())) {
+        //     echo $this->send_date . "\r\n";
+        //     return false;
+        // }
         $this->attributes['send_date'] = null;
         $this->save();
 

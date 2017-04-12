@@ -47,6 +47,8 @@ $factory->define(App\Message::class, function(Faker\Generator $faker) {
 
 		'content' => '<a href="http://example.com">click me</a>'.$faker->words(rand(100,500), true),
 		'subject' => $faker->words(rand(5, 10), true),
-		'message_time' => Carbon::now()->addMinutes(2)->toTimeString()
+		'message_time' => Carbon::now()->addMinutes(2)->toTimeString(),
+		'position' => 0
 	];
 });
+
