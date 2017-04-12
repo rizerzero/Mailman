@@ -2,20 +2,17 @@
 
 namespace Tests\Feature;
 
-use \Tests\TestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MailListTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
+
+	/** @test */
+    public function it_can_do_something()
     {
-        $this->assertTrue(true);
+    	$this->assertTrue(true);
     }
 }
