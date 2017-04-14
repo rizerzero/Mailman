@@ -7,6 +7,7 @@ use App\MailList;
 use App\Message;
 use Carbon\Carbon;
 use App\Entry;
+use Blade;
 
 class MessageController extends Controller
 {
@@ -143,9 +144,10 @@ class MessageController extends Controller
             $message = Message::whereId($message)->firstOrFail();
             $entry = factory(Entry::class)->make();
 
+            // dd( Blade::compileString($message->content));
             return view('emails.message')->with([
                 'mailmessage' => $message,
-                'entry' => $entry
+                'entry' => $entry,
             ]);
 
         } catch (\Exception $e) {

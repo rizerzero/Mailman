@@ -25,7 +25,7 @@ class GeneratorController extends Controller
     			break;
 
     		default:
-    			$data = null;
+    			$data = 'Invalid Arguments';
 
     			break;
     	}

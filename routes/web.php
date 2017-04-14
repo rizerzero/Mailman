@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('/lists/{list}/queue', 'ListController@viewQueue');
 	Route::get('/lists/{list}/pause', 'ListController@pauseCampaign');
 	Route::get('/lists/{list}/resume', 'ListController@resumeCampaign');
+	Route::get('/lists/{list}/stop', 'ListController@stopCampaign');
 	Route::get('/lists/{list}/messages/', 'MessageController@index')->middleware('has-messages');
 	Route::get('/lists/{list}/messages/create', 'MessageController@create')->middleware('list-active');
 	Route::post('/lists/{list}/messages/create','MessageController@save')->middleware('list-active');

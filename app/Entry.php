@@ -24,6 +24,12 @@ class Entry extends Model
     	return $this->belongsTo('App\MailList');
     }
 
+    public function hasComplained()
+    {
+        return $this->attributes['spam_complaints'] > 0;
+    }
+
+
     /**
      * Eloquent relationship for children queue models
      * @return App\MailQueue
@@ -46,9 +52,14 @@ class Entry extends Model
 
     }
 
-    public function scopeIsSubscribed()
+    public function scopeIsSubscribed($query)
     {
         return $query->where('clicked_unsubscribe', '=', 0)->where('spam_complaints','=', 0);
+    }
+
+    public function subscribed()
+    {
+        return $this->attributes['clicked_unsubscribe'] == 0 && $this->attributes['spam_complaints'] == 0;
     }
 
     /**

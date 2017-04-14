@@ -19,9 +19,18 @@
 		<form action="{{ action('MessageController@save', $list->id) }}" method="POST">
 	@endif
 
+	<div>
 
+	  <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active"><a href="#editor" aria-controls="editor" role="tab" data-toggle="tab">Editor</a></li>
+	    <li role="presentation"><a href="#docs" aria-controls="docs" role="tab" data-toggle="tab">Documentation</a></li>
+	  </ul>
 
-	<div class="col-sm-10">
+	  <!-- Tab panes -->
+	  <div class="tab-content">
+	    <div role="tabpanel" class="tab-pane active" id="editor">
+	    	<div class="col-sm-10">
 		<div class="form-group">
 			<label for="">Name:</label>
 			<input type="text" class="form-control" name="name" value={{ (isset($message)) ? $message->name : null }}>
@@ -82,6 +91,48 @@
 
 	</div>
 	</form>
+
+	    </div>
+	    <div role="tabpanel" class="tab-pane" id="docs">
+
+			<h2>Usage</h2>
+
+			<p>In order to display a variable in the message, you must use double curly brackets before and after like so <code>&#123;&#123; $model->property &#125;&#125;</code>.</p>
+
+			<p>Examples:</p>
+
+			<p><code>&#123;&#123; $entry->name &#125;&#125;</code></p>
+			<p><code>&#123;&#123; $list->title &#125;&#125;</code></p>
+			<p><code>&#123;&#123; $mailmessage->name &#125;&#125;</code></p>
+	    	<h2>Models and Properties</h2>
+	    	<ul>
+		    	<li>$entry
+		    		<ul>
+		    			<li><strong>name</strong> Name of the recipeint</li>
+		    			<li><strong>email</strong> Email of the recipeint</li>
+		    		</ul>
+		    	</li>
+		    	<li>$list
+		    		<ul>
+		    			<li><strong>title</strong> Title of the list</li>
+		    			<li><strong>description</strong> Description of the list</li>
+		    		</ul>
+		    	</li>
+		    	<li>$mailmessage
+					<ul>
+						<li><strong>name</strong></li>
+						<li><strong>content</strong></li>
+						<li><strong>subject</strong></li>
+					</ul>
+		    	</li>
+
+		    </ul>
+	    </div>
+	  </div>
+
+	</div>
+
+
 	<script>
 		$( function() {
 			$('.timepicker').timepicker({
@@ -98,6 +149,7 @@
 		tinymce.init({
 		    selector: 'textarea',
 		    skin_url: '/css/tinymce',
+		    entity_encoding: "raw",
 		    menubar: false,
 		    plugins: [
 		    	'image',

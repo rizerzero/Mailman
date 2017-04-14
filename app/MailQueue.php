@@ -49,8 +49,35 @@ class MailQueue extends Model
         $this->attributes['status'] = 7;
         $this->save();
 
+        return true;
     }
 
+    /**
+     * Determine if the queue model is paused
+     * @return boolean
+     */
+    public function isPaused()
+    {
+        return $this->attributes['status'] == 7;
+    }
+
+    /**
+     * Determine if the queue model is new
+     * @return boolean
+     */
+    public function isNew()
+    {
+        return $this->attributes['status'] == 1;
+    }
+
+    /**
+     * Determine if the queue model has been delivered
+     * @return boolean
+     */
+    public function isDelivered()
+    {
+        return $this->attributes['status'] == 6;
+    }
     /**
      * Resume the paused queue models
      */
@@ -59,6 +86,7 @@ class MailQueue extends Model
         $this->attributes['status'] = 1;
         $this->save();
 
+        return true;
     }
 
     /**
@@ -90,6 +118,7 @@ class MailQueue extends Model
         $this->entry->incrementDeliveries();
         $this->message->incrementDeliveries();
 
+        return true;
     }
 
     /**
@@ -101,6 +130,7 @@ class MailQueue extends Model
         $this->entry->unsubscribe();
         $this->entry->incrementComplaints();
         $this->message->incrementComplaints();
+        return true;
     }
 
     /**
@@ -112,6 +142,8 @@ class MailQueue extends Model
         $this->incrementClicks();
         $this->entry->incrementClicks();
         $this->message->incrementClicks();
+
+        return true;
     }
 
     /**
@@ -122,6 +154,8 @@ class MailQueue extends Model
         $this->entry->incrementOpens();
         $this->incrementOpens();
         $this->message->incrementOpens();
+
+        return true;
     }
 
     /**
@@ -184,7 +218,7 @@ class MailQueue extends Model
     public function processingStart()
     {
     	$this->attributes['status'] = 3;
-        $this->report['Begin Processing'];
+        $this->attributes['report'] = 'Begin Processing';
     	$this->save();
     	return $this;
     }

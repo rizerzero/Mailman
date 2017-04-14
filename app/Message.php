@@ -180,4 +180,10 @@ class Message extends Model
     {
     	return $query->orderBy('position', $direction);
     }
+
+    public function setContentAttribute($value)
+    {
+        $this->attributes['content'] = html_entity_decode($value);
+    }
 }
+

@@ -8,12 +8,16 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class OptionControllerTest extends TestCase
 {
-	/** @test */
+
+	public function testIt()
+	{
+		$this->assertTrue(true);
+	}
 	public function it_can_display_the_options_page()
 	{
 
 	}
-	/** @test */
+
 	public function it_can_update_the_options()
 	{
 

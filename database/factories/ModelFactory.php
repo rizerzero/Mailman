@@ -38,6 +38,7 @@ $factory->define(App\Entry::class, function(Faker\Generator $faker) {
 	return [
 		'name' => $faker->words(rand(3,5), true),
 		'email' => $faker->unique()->safeEmail,
+		'clicked_unsubscribe' => 0
 	];
 });
 

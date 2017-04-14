@@ -21,6 +21,7 @@ class ListController extends Controller
 
             $list->pause();
 
+
             return redirect()->back()->withSuccess($list->name . ' paused! No more messages will be sent! When resuming the list the send date will be recalculated');
         } catch (\Exception $e) {
             return redirect()->back()->withError($e->getMessage());

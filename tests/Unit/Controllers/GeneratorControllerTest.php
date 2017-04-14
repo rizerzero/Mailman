@@ -8,13 +8,17 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GeneratorControllerTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
+
+	use DatabaseMigrations, DatabaseTransactions;
+
+ 	/** @test */
+ 	public function it_can_generate()
+ 	{
+ 		$this->be(factory(\App\User::class)->create());
+
+ 		$response = $this->get('/generators/entry-csv?amount=15');
+ 		$response->assertSeeText('@example.com');
+ 		$response->assertDontSee('Invalid Arguments');
+
+ 	}
 }

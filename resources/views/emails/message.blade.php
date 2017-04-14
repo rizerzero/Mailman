@@ -4,7 +4,8 @@
 
 @section('content')
 
+
 	{{-- Can't use the var $message --}}
-	{!! $mailmessage->content !!}
+	{!! eval('?>'.Blade::compileString($mailmessage->content)) !!}
 
 @endsection
