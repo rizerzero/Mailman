@@ -1,9 +1,10 @@
 
 @extends('partials.layout')
 
-@section('header-files')
+@push('header')
+
 	<link rel="stylesheet" href="/css/themes.css">
-@endsection
+@endpush
 @section('content')
 
 	<div class="page-header">
@@ -25,6 +26,7 @@
 	  <ul class="nav nav-tabs" role="tablist">
 	    <li role="presentation" class="active"><a href="#editor" aria-controls="editor" role="tab" data-toggle="tab">Editor</a></li>
 	    <li role="presentation"><a href="#docs" aria-controls="docs" role="tab" data-toggle="tab">Documentation</a></li>
+	    <li role="presentation"><a href="#stats" aria-controls="docs" role="tab" data-toggle="tab">Stats</a></li>
 	  </ul>
 
 	  <!-- Tab panes -->
@@ -127,6 +129,9 @@
 		    	</li>
 
 		    </ul>
+	    </div>
+	    <div role="tabpanel" class="tab-pane" id="stats">
+			@include('partials.stats.graph')
 	    </div>
 	  </div>
 

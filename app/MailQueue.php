@@ -30,6 +30,16 @@ class MailQueue extends Model
         7 => 'Paused',
     ];
 
+    public function stats()
+    {
+        return $this->morphMany('App\Stat', 'statable');
+    }
+
+    public function getStats()
+    {
+        return $this->stats()->first();
+    }
+
     public static function getFilterOptions()
     {
         $o =  new \stdClass;

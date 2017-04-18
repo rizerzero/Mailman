@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\DispatchMessageJobs::class
+        \App\Console\Commands\DispatchMessageJobs::class,
+        \App\Console\Commands\FindCompletedCampaigns::class
     ];
 
     /**
@@ -28,7 +29,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('backup:run')->daily();
         $schedule->command('backup:clean')->weekly();
-
+        $schedule->command('finish-campaigns')->everyTenMinutes();
     }
 
     /**

@@ -84,12 +84,19 @@ class MessageController extends Controller
      * @param  integer $list_id    The ID of the list that the message belongs to
      * @param  integer $message_id The ID of the message to edit
      */
-    public function edit($list_id, $message_id)
+    public function edit(Request $request, $list_id, $message_id)
     {
     	try {
+            $r = $request->only(['date_start','date_end','type']);
+
+            $model = Message::whereId($message_id)->firstOrFail();
+            $list = MailList::whereId($list_id)->firstOrFail();
+            $stats = $model->stats()->fromDateRange($r['date_start'], $r['date_end'])->get();
+
     		return view('messages.create')
-		    	->withMessage(Message::whereId($message_id)->firstOrFail())
-		    	->withList(MailList::whereId($list_id)->firstOrFail());
+		    	->withMessage($model)
+		    	->withList($list)
+                ->withStats($stats);
     	} catch (\Exception $e) {
     		return redirect()->back()->withError('Message not found');
     	}

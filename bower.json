@@ -15,6 +15,7 @@
   "dependencies": {
     "tinymce": "^4.5.5",
     "bootstrap-sass": "^3.3.7",
-    "bootswatch-dist": "3.3.0-yeti"
+    "bootswatch-dist": "3.3.0-yeti",
+    "chart.js": "^2.5.0"
   }
 }

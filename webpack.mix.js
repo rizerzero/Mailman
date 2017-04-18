@@ -22,6 +22,7 @@ mix.scripts([
 		'bower_components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
       'bower_components/tinymce/plugins/image/plugin.min.js',
       'bower_components/tinymce/plugins/link/plugin.min.js',
+      'bower_components/chart.js/dist/Chart.min.js',
 		'resources/assets/js/app.js',
 	], 'public/js/javascripts.js')
    .copy('bower_components/tinymce/skins/lightgray/fonts', 'public/css/tinymce/fonts/')

@@ -18,10 +18,6 @@ class MailqueueTable extends Migration
             $table->integer('entry_id');
             $table->integer('message_id');
             $table->integer('status');
-            $table->integer('deliveries')->default(0);
-            $table->integer('spam_complaints')->default(0);
-            $table->integer('clicks')->default(0);
-            $table->integer('opens')->default(0);
             $table->longText('report')->nullable();
             $table->timestamps();
 

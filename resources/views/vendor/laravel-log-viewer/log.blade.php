@@ -1,7 +1,7 @@
 
 @extends('partials.layout')
 
-@section('header-files')
+@push('header')
   <link rel="stylesheet" href="https://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.css">
   <style>
 
@@ -25,7 +25,7 @@
       }
     </style>
 
-@endsection
+@endpush
 @section('content')
     <div class="container-fluid">
       <div class="row">

@@ -29,10 +29,6 @@ class CreateBaseTables extends Migration
             $table->string('email')->index();
             $table->boolean('clicked_unsubscribe')->default(0);
             $table->integer('mail_list_id');
-            $table->integer('deliveries')->default(0);
-            $table->integer('spam_complaints')->default(0);
-            $table->integer('clicks')->default(0);
-            $table->integer('opens')->default(0);
             $table->timestamps();
         });
 
@@ -45,10 +41,6 @@ class CreateBaseTables extends Migration
             $table->integer('day_offset')->nullable();
             $table->time('message_time');
             $table->timestamp('send_date')->nullable();
-            $table->integer('deliveries')->default(0);
-            $table->integer('spam_complaints')->default(0);
-            $table->integer('clicks')->default(0);
-            $table->integer('opens')->default(0);
             $table->integer('mail_list_id');
             $table->timestamps();
         });
@@ -73,6 +65,5 @@ class CreateBaseTables extends Migration
         Schema::dropIfExists('lists');
         Schema::dropIfExists('entries');
         Schema::dropIfExists('messages');
-        Schema::dropIfExists('series');
     }
 }

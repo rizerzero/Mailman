@@ -16,6 +16,7 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Entries</a></li>
     <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Settings</a></li>
+    <li role="presentation"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Stats</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -36,9 +37,15 @@
 		{{ $entries->appends(['find_entry' => $search])->links() }}
 
     </div>
+
+    <div role="tabpanel" class="tab-pane" id="stats">
+    	@include('partials.stats.graph')
+    </div>
+
     <div role="tabpanel" class="tab-pane" id="profile">
     	@include('partials.lists.form')
     </div>
+
   </div>
 
 </div>

@@ -17,6 +17,15 @@ class Message extends Model
     	'name','content','subject','mail_list_id','days_offset','message_time','send_date','deliveries','spam_complaints','clicks','opens','position'
     ];
 
+    public function stats()
+    {
+        return $this->morphMany('App\Stat', 'statable');
+    }
+    public function getStats()
+    {
+        return $this->stats()->first();
+    }
+
     /**
      * Eloquent child relationship for Campaign List
      * @return App\MailList

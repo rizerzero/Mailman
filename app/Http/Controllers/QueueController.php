@@ -21,4 +21,12 @@ class QueueController extends Controller
     	$lists = MailList::all();
     	return view('queues.index')->withQueues($queues)->withData($filter_data)->withLists($lists);
     }
+
+    public function test()
+    {
+        $queue = MailQueue::first();
+
+
+        $queue->incrementDeliveries();
+    }
 }

@@ -25,6 +25,17 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Stat::class, function(Faker\Generator $faker) {
+	$dt = $faker->dateTimeThisMonth();
+	return [
+		'deliveries' => rand(0, 100),
+		'spam_complaints' => rand(0, 100),
+		'clicks' => rand(0,100),
+		'opens' => rand(0,100),
+		'created_at' => $dt,
+		'updated_at' => $dt
+	];
+});
 
 $factory->define(App\MailList::class, function(Faker\Generator $faker) {
 

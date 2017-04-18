@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/tinymce.css">
 
-    @yield('header-files')
+    @stack('header')
     <script src="/js/javascripts.js"></script>
   </head>
 
@@ -54,6 +54,7 @@
 
             <li><a href="{{ action('OptionController@index') }}">Options</a></li>
             <li><a href="/logs/">Logs</a></li>
+            <li><a href="{{ action('StatController@view') }}">Stats</a></li>
             <li><a href="{{ action('GeneratorController@generate') }}">Factories</a></li>
           </ul>
 

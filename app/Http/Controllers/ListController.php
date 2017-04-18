@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\MailList;
 use App\ListResponse;
 use App\Entry;
+use App\Stat;
 
 class ListController extends Controller
 {
@@ -69,8 +70,11 @@ class ListController extends Controller
             } else {
                $entries =  $model->entries()->searchFor($search_string)->paginate(50);
             }
+            $r = $request->only(['date_start','date_end','type']);
 
-    		return view('lists.single')->withList($model)->withEntries($entries)->withSearch($search_string);
+            $stats = $model->stats()->fromDateRange($r['date_start'], $r['date_end'])->get();
+
+    		return view('lists.single')->withList($model)->withEntries($entries)->withSearch($search_string)->withStats($stats);
     	} catch (\Exception $e) {
     		return redirect()->back()->withError($e->getMessage());
     	}

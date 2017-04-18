@@ -14,7 +14,6 @@ class MailGunRequest extends WebhookRequest {
 		parent::__construct($request);
 
 		$this->r = $this->request;
-		Log::debug($this->r);
 		$this->recipient = $this->request['recipient'];
 		$this->action = $this->request['event'];
 		$this->timestamp = $this->request['timestamp'];
@@ -26,6 +25,7 @@ class MailGunRequest extends WebhookRequest {
 	public function process()
 	{
 
+		try {
 		switch ($this->action) {
 			case 'delivered':
 				$this->mailqueue_model->hasBeenDelivered();
@@ -47,6 +47,10 @@ class MailGunRequest extends WebhookRequest {
 				# code...
 				break;
 		}
+		} catch (\Exception $e) {
+			return $e->getMessage();
+		}
+
 	}
 
 	private function setEntryModel()

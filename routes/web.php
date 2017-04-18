@@ -12,6 +12,7 @@
 */
 
 
+
 Route::group(['middleware' => 'auth'], function() {
 	Route::get('/', 'ListController@index');
 	Route::get('/lists/create', 'ListController@create');
@@ -37,8 +38,9 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('/lists/{list}/messages/{message}', 'MessageController@update')->middleware('list-active');
 	Route::get('/messages/{message}/render', 'MessageController@render');
 
-
+	Route::get('/stats', 'StatController@view');
 	Route::get('/queues','QueueController@index');
+	Route::get('/queues/test','QueueController@test');
 	Route::get('/options', 'OptionController@index');
 	Route::post('/options','OptionController@update');
 

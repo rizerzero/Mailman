@@ -13,6 +13,7 @@ class Entry extends Model
     protected $fillable = [
     	'name','email','mail_list_id','clicked_unsubscribe','deliveries','spam_complaints','clicks','opens'
     ];
+
     protected $table = 'entries';
 
     /**
@@ -23,6 +24,17 @@ class Entry extends Model
     {
     	return $this->belongsTo('App\MailList');
     }
+
+    public function stats()
+    {
+        return $this->morphMany('App\Stat', 'statable');
+    }
+
+    public function getStats()
+    {
+        return $this->stats()->first();
+    }
+
 
     public function hasComplained()
     {

@@ -8,6 +8,10 @@ use App\Entry;
 use Carbon\Carbon;
 use App\Exceptions\NoMessagesException;
 use App\MailQueue;
+use App\Jobs\ImportEntries;
+use App\Jobs\StartCampaign;
+use App\Jobs\PauseCampaign;
+use App\Jobs\StopCampaign;
 
 class MailList extends Model
 {
@@ -22,8 +26,19 @@ class MailList extends Model
       4 => 'Cancelled',
       5 => 'Paused',
    ];
-   protected $table = 'lists';
 
+   public function stats()
+    {
+        return $this->morphMany('App\Stat', 'statable');
+    }
+
+    public function getStats()
+    {
+        return $this->stats()->first();
+    }
+
+
+   protected $table = 'lists';
 
    /**
     * Accessor for human friendly representation of status column
@@ -43,12 +58,11 @@ class MailList extends Model
     */
    public function pause()
    {
-      $this->attributes['status'] = 5;
-      $this->save();
+      if(! $this->isActive() )
+        return false;
 
-      foreach($this->messages as $message) {
-          $message->cancelQueuedMessage();
-      }
+
+      dispatch(new PauseCampaign($this));
 
       return true;
    }
@@ -68,6 +82,8 @@ class MailList extends Model
     */
    public function resumeCampaign()
    {
+      if(! $this->isPaused())
+        return false;
       $this->attributes['status'] = 2;
       $this->save();
 
@@ -161,6 +177,12 @@ class MailList extends Model
 
    }
 
+   public function hasNewMessages()
+   {
+      return $this->queues()->whereStatus(1)->count() > 0;
+
+   }
+
    /**
     * Save entries that were inported via application.
     * This should be passed to the method from \App\ListResponse
@@ -171,22 +193,10 @@ class MailList extends Model
     */
    public function saveEntries(array $entries)
    {
-      $save = [];
-      foreach($entries as $entry)
-      {
-         if(is_null($this->entries()->whereEmail($entry->email)->first())) {
-            $listentry = new Entry;
-            $listentry->name = $entry->name;
-            $listentry->email = $entry->email;
 
-            $save[] = $listentry;
-         }
-      }
+      dispatch(new ImportEntries($this, $entries));
 
-
-      $this->entries()->saveMany($save);
-
-      return $save;
+      return $entries;
    }
 
    /**
@@ -267,17 +277,26 @@ class MailList extends Model
       if(! $this->hasEntries() )
           throw new NoEntryException('You must have entries in this list before starting the campaign');
 
-      $this->attributes['status'] = 2;
-      $this->attributes['campaign_start'] = Carbon::now()->toDateString();
-      $this->save();
 
-       foreach($this->messages as $message) {
-          $message->createSendDate();
-          $this->queueMessages($message);
-       }
-       return true;
+      dispatch(new StartCampaign($this));
+
+      return true;
    }
 
+   /**
+    * Indicate that the list has been completed and perform necessary cleanup methods
+    * to model and its children
+    * @return [type] [description]
+    */
+   public function markAsCompleted()
+   {
+      $this->attributes['status'] = 3;
+
+      foreach($this->queues as $queue)
+      {
+          $queue->delete();
+      }
+   }
    /**
     * Determine if the campaign is active
     * @return boolean
@@ -304,7 +323,7 @@ class MailList extends Model
     * Read about queue drivers at L5.4 docs
     * @param  Message $message The message instance
     */
-   private function queueMessages(Message $message)
+   public function queueMessages(Message $message)
    {
       if(! $this->isActive() )
          throw new QueueListException('A list must be active before queueing messages');

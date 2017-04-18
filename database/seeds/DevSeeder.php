@@ -14,10 +14,15 @@ class DevSeeder extends Seeder
     {
 
 
-        factory(App\MailList::class, 1)->create()->each(function ($l) {
+        factory(App\MailList::class, 25)->create()->each(function ($l) {
 
 	        $l->entries()->saveMany(factory(App\Entry::class, 500)->make());
 
+            foreach($l->entries as $entry)
+            {
+                $entry->stats()->save(factory(App\Stat::class)->make());
+            }
+            $l->stats()->saveMany(factory(App\Stat::class, rand(1,15))->make());
 
 
             for ($i=1; $i < 7; $i++) {
@@ -29,9 +34,25 @@ class DevSeeder extends Seeder
                 ]));
             }
 
+
+            foreach($l->messages as $message)
+            {
+                $message->stats()->saveMany(factory(App\Stat::class, rand(2,10))->make());
+            }
+
 	    });
 
-
+        factory(App\MailList::class, 1)->create()->each(function($l) {
+            $l->entries()->save(factory(App\Entry::class)->make([
+                'email' => 'tomfordweb@gmail.com',
+            ]));
+            $l->messages()->save(factory(App\Message::class)->make([
+                    'position' => 1,
+                    'day_offset' => 1,
+                    'subject' => 'This is the 1st message.',
+                    'name' => '1st message'
+                ]));
+        });
 
     }
 }
