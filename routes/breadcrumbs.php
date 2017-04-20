@@ -22,6 +22,17 @@ Breadcrumbs::register('list', function($breadcrumbs, \App\MailList $list) {
 	$breadcrumbs->push('List: ' . $list->title, action('ListController@single', $list->id));
 });
 
+Breadcrumbs::register('list-stats', function($breadcrumbs, \App\MailList $list) {
+	$breadcrumbs->parent('list', $list);
+	$breadcrumbs->push('Stats');
+});
+
+Breadcrumbs::register('list-queue', function($breadcrumbs, \App\MailList $list) {
+	$breadcrumbs->parent('list', $list);
+	$breadcrumbs->push('Queue');
+});
+
+
 Breadcrumbs::register('messages', function($breadcrumbs, \App\MailList $list) {
 	$breadcrumbs->parent('list', $list);
 	$breadcrumbs->push('Messages', action('MessageController@index', $list->id));

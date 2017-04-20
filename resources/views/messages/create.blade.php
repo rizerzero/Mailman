@@ -131,7 +131,7 @@
 		    </ul>
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="stats">
-			@include('partials.stats.graph')
+			{{-- @include('partials.stats.graph') --}}
 	    </div>
 	  </div>
 

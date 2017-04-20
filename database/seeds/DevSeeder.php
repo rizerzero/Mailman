@@ -14,7 +14,7 @@ class DevSeeder extends Seeder
     {
 
 
-        factory(App\MailList::class, 25)->create()->each(function ($l) {
+        factory(App\MailList::class, 1)->create()->each(function ($l) {
 
 	        $l->entries()->saveMany(factory(App\Entry::class, 500)->make());
 

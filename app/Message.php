@@ -97,18 +97,18 @@ class Message extends Model
      */
     public function cancelQueuedMessage()
     {
-        // if(Carbon::parse($this->send_date)->gt(Carbon::now())) {
-        //     echo $this->send_date . "\r\n";
-        //     return false;
-        // }
-        $this->attributes['send_date'] = null;
-        $this->save();
+        // If the message is "in the future" nullify the send date
+        if(Carbon::parse($this->send_date)->gt(Carbon::now())) {
+           $this->attributes['send_date'] = null;
+           $this->save();
+        }
 
         foreach($this->mailQueues()->getNew()->get() as $queue)
         {
             $queue->pause();
         }
 
+        return true;
     }
 
     /**

@@ -1,4 +1,4 @@
-<form action="#" method="get">
+@if(!isset($hide_controls))<form action="#" method="get">
 	<div class="row">
 		<div class="col-sm-4">
 			<div class="form-group">
@@ -39,7 +39,7 @@
 
 </form>
 
-
+@endif
 {{-- {{ dd($stats->keys()->toJson()) }} --}}
 <canvas id="myChart" width="400" height="400"></canvas>
 <script>

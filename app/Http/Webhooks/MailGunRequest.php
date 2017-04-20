@@ -17,13 +17,14 @@ class MailGunRequest extends WebhookRequest {
 		$this->recipient = $this->request['recipient'];
 		$this->action = $this->request['event'];
 		$this->timestamp = $this->request['timestamp'];
-		$this->mailqueue_model = $this->setMailQueueModel();
-		$this->mailmessage_model = $this->setMailMessageModel();
-		$this->entry_model = $this->setEntryModel();
+		// $this->mailqueue_model = $this->setMailQueueModel();
+		// $this->mailmessage_model = $this->setMailMessageModel();
+		// $this->entry_model = $this->setEntryModel();
 
 	}
 	public function process()
 	{
+
 
 		try {
 		switch ($this->action) {
@@ -43,6 +44,10 @@ class MailGunRequest extends WebhookRequest {
 			case 'clicked':
 				$this->mailqueue_model->clickedLink();
 				break;
+			case 'bounced';
+				return 'hai';
+				$this->mailqueue_model->hardBounce();
+
 			default:
 				# code...
 				break;
@@ -72,6 +77,7 @@ class MailGunRequest extends WebhookRequest {
 	}
 	private function getMailgunHeaderVars()
 	{
+
 		switch ($this->action) {
 			case 'delivered':
 				$string = json_decode($this->r['message-headers']);
@@ -79,6 +85,11 @@ class MailGunRequest extends WebhookRequest {
 				$return =  end($string[$position]);
 				break;
 
+			case 'bounced':
+				$string = json_decode($this->r['message-headers']);
+				$position = $this->_recusiveSearchForMailgunVars('X-Mailgun-Variables', $string);
+				$return =  end($string[$position]);
+				break;
 
 			default:
 				$headers = $this->r;

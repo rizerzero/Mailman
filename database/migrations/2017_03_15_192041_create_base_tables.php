@@ -25,9 +25,15 @@ class CreateBaseTables extends Migration
 
         Schema::create('entries', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('first_name');
             $table->string('email')->index();
+            $table->string('last_name')->nullable();
+            $table->string('segment')->nullable();
+            $table->string('company_name')->nullable();
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
             $table->boolean('clicked_unsubscribe')->default(0);
+            $table->boolean('excessive_bounces')->default(0);
             $table->integer('mail_list_id');
             $table->timestamps();
         });
@@ -44,14 +50,6 @@ class CreateBaseTables extends Migration
             $table->integer('mail_list_id');
             $table->timestamps();
         });
-
-        // Schema::create('series', function(Blueprint $table) {
-        //     $table->increments('id');
-        //     $table->integer('mail_list_id');
-        //     $table->integer('position')->default(1);
-        //     $table->integer('message_id');
-        //     $table->timestamps();
-        // });
 
     }
 

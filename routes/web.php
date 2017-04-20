@@ -20,6 +20,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('/lists/import', 'ListController@saveEntries');
 	Route::get('/lists/{list}', 'ListController@single');
 	Route::post('/lists/{list}', 'ListController@update');
+	Route::get('/lists/{list}/stats', 'ListController@singleStats');
 	Route::get('/lists/{list}/import', 'ListController@import');
 	Route::get('/lists/{list}/start', 'ListController@startCampaign');
 	Route::post('/lists/{list}/import','ListController@importEntries');

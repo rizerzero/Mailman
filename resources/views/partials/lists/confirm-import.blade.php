@@ -1,17 +1,28 @@
 
 <p>Before saving these entries, please take a minute to examine the imports for any errors. If everything looks fine, click the submit button below.</p>
 
+{{ dd($data->output())}}
 <table class="table">
 	<thead>
-		<th>Name</th>
+		<th>First Name</th>
+		<th>Last Name</th>
 		<th>Email</th>
+		<th>Segment</th>
+		<th>Company</th>
+		<th>Phone</th>
+		<th>Address</th>
 	</thead>
 
 	<tbody>
 		@foreach($data->output() as $entry)
 		<tr>
-			<td>{{ $entry->name }}</td>
+			<td>{{ $entry->first_name }}</td>
+			<td>{{ $entry->last_name }}</td>
 			<td>{{ $entry->email }}</td>
+			<td>{{ $entry->segment }}</td>
+			<td>{{ $entry->company_name }}</td>
+			<td>{{ $entry->phone }}</td>
+			<td>{{ $entry->address }}</td>
 		</tr>
 		@endforeach
 	</tbody>

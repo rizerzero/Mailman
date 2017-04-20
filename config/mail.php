@@ -22,7 +22,7 @@ return [
     ],
 
 
-    'driver' => 'mailgun',
+    'driver' => 'log',
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +63,7 @@ return [
 
     'from' => [
         'address' => 'hello@example.com',
-        'name' => 'Example',
+        'name' => 'Tom Webb',
     ],
 
     /*

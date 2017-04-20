@@ -15,12 +15,12 @@
 	  </ul>
 	</div>
 	<div class="btn-group">
-		<a href="{{ action('ListController@viewQueue', $list->id) }}" id="queue-status" class="btn btn-default">Queue Status</a>
+		<a href="{{ action('ListController@viewQueue', $list->id) }}" class="btn btn-default">Queue Status</a>
 	</div>
 	<div class="btn-group">
 	  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">List Controls <span class="caret"></span></button>
 	  <ul class="dropdown-menu">
-	  	<li class="{{ ($list->isActive() ) ? 'disabled' : null }}"><a href="{{ action('ListController@startCampaign', $list->id) }}">Start Campaign</a></li>
+	  	<li class="{{ ($list->isActive() || $list->isPaused() ) ? 'disabled' : null }}"><a href="{{ action('ListController@startCampaign', $list->id) }}">Start Campaign</a></li>
 
 	  	<li>
 	  		@if(! $list->isPaused() && $list->isActive())

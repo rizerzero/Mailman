@@ -7,6 +7,7 @@ use App\MailList;
 use App\ListResponse;
 use App\Entry;
 use App\Stat;
+use App\Jobs\ResumeCampaign;
 
 class ListController extends Controller
 {
@@ -36,14 +37,26 @@ class ListController extends Controller
     public function resumeCampaign($id) {
         try {
             $list = MailList::whereId($id)->firstOrFail();
-            $list->resumeCampaign();
 
+            dispatch(new ResumeCampaign($list));
             return redirect()->back()->withSuccess('Campaign successfully resumed!');
         } catch (\Exception $e) {
             return redirect()->back()->withError($e->getMessage());
         }
     }
 
+    public function singleStats(Request $request, $id)
+    {
+
+
+        $model = MailList::whereId($id)->firstOrFail();
+
+        $r = $request->only(['date_start','date_end','type']);
+
+        $stats = $model->stats()->fromDateRange($r['date_start'], $r['date_end'])->get();
+
+        return view('lists.stats')->withList($model)->withStats($stats);
+    }
     /**
      * Show all lists
      */
@@ -72,7 +85,7 @@ class ListController extends Controller
             }
             $r = $request->only(['date_start','date_end','type']);
 
-            $stats = $model->stats()->fromDateRange($r['date_start'], $r['date_end'])->get();
+            $stats = $model->stats()->fromDateRange($r['date_start'], $r['date_end'])->forGraphData();
 
     		return view('lists.single')->withList($model)->withEntries($entries)->withSearch($search_string)->withStats($stats);
     	} catch (\Exception $e) {
@@ -92,7 +105,7 @@ class ListController extends Controller
 
             $data = factory(Entry::class, 20)->make()->map(function($c) {
 
-                return $c->name . ',' . $c->email;
+                return implode(',', [$c->first_name, $c->last_name, $c->email, $c->segment, $c->company_name, $c->phone, $c->address]);
             })->implode("\r\n");
 
 
@@ -125,7 +138,7 @@ class ListController extends Controller
 
         } catch (\Exception $e) {
 
-            return response()->json()->withError($e->getMessage());
+            return response()->json($e->getMessage());
         }
 
 
@@ -315,7 +328,7 @@ class ListController extends Controller
         try {
             $list = MailList::whereId($list)->firstOrFail();
 
-            return view('partials.queues.list')->withQueues($list->queues);
+            return view('lists.queue')->withQueues($list->queues()->paginate(50))->withList($list);
 
         } catch (\Exception $e) {
             return $e->getMessage();

@@ -82,19 +82,13 @@ class MailList extends Model
     */
    public function resumeCampaign()
    {
+
       if(! $this->isPaused())
         return false;
-      $this->attributes['status'] = 2;
-      $this->save();
 
-      foreach($this->queues()->getPaused()->get() as $q) {
-        $q->resume();
-      }
+      dispatch(new ResumeCampaign($list));
 
-      foreach($this->messages as $message)
-      {
-        $message->resumeQueuedMessages();
-      }
+
 
       return true;
 

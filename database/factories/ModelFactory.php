@@ -46,8 +46,14 @@ $factory->define(App\MailList::class, function(Faker\Generator $faker) {
 });
 
 $factory->define(App\Entry::class, function(Faker\Generator $faker) {
+	$noeol_addy = str_replace(PHP_EOL, ' ', $faker->address);
 	return [
-		'name' => $faker->words(rand(3,5), true),
+		'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
+        'segment' => 'asdf',
+        'company_name' => str_replace(',', ' ', $faker->company),
+        'address' => str_replace(',', ' ', $noeol_addy),
+        'phone' => $faker->phoneNumber,
 		'email' => $faker->unique()->safeEmail,
 		'clicked_unsubscribe' => 0
 	];
@@ -56,7 +62,6 @@ $factory->define(App\Entry::class, function(Faker\Generator $faker) {
 $factory->define(App\Message::class, function(Faker\Generator $faker) {
 	return [
 		'name' => $faker->words(rand(3,5), true),
-
 		'content' => '<a href="http://example.com">click me</a>'.$faker->words(rand(100,500), true),
 		'subject' => $faker->words(rand(5, 10), true),
 		'message_time' => Carbon::now()->addMinutes(2)->toTimeString(),

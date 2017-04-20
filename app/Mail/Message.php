@@ -39,7 +39,7 @@ class Message extends Mailable
     {
 
         return $this->subject($this->mailmessage->subject)
-                    ->from('server@mailman.com')
+                    ->from(config('mail.from.address'), config('mail.from.name'))
                     ->view('emails.message')
                     ->withSwiftMessage(function($message) {
                         $message->getHeaders()

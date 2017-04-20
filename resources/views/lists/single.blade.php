@@ -16,18 +16,33 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Entries</a></li>
     <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Settings</a></li>
-    <li role="presentation"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Stats</a></li>
   </ul>
 
   <!-- Tab panes -->
   <div class="tab-content">
+
+
+
     <div role="tabpanel" class="tab-pane active" id="home">
+
+    	<div class="row">
+		<div class="col-sm-6">
+			@include('partials.messages.schedule', ['messages' => $list->messages()->orderBy('position', 'asc')->get()])
+		</div>
+		<div class="col-sm-6">
+			<h1>Stats <small><a href="{{ action('ListController@singleStats', $list->id) }}" target="_blank">See More</a></small></h1>
+			@include('partials.stats.graph', ['hide_controls' => true])
+		</div>
+	</div>
+
 		<form action="{{ action('ListController@single', $list->id) }}" method="GET">
 			<div class="form-group">
 				<label for="find_entry">Search Entries: </label>
 				<input type="text" name="find_entry" class="form-control">
 			</div>
 		</form>
+
+
     	@if($list->entries->count() == 0 )
 			No Entries Exist Yet
 		@else
@@ -38,13 +53,11 @@
 
     </div>
 
-    <div role="tabpanel" class="tab-pane" id="stats">
-    	@include('partials.stats.graph')
-    </div>
-
     <div role="tabpanel" class="tab-pane" id="profile">
     	@include('partials.lists.form')
     </div>
+
+
 
   </div>
 
@@ -77,23 +90,6 @@ $('#export').click(function(e) {
 	})
 });
 
-$('#queue-status').click(function(e) {
-	e.preventDefault();
-	var el = $(this),
-		action = el.attr('href');
-
-	$.ajax({
-		url: action,
-		method: 'GET',
-		beforeSend: function(xhr) {
-			modalBody.html('');
-			modalSizeControl.addClass('modal-lg');
-		}
-	}).done(function(res) {
-		modalBody.html('<pre>'+res+'</pre>');
-		$('#myModal').modal('toggle');
-	})
-});
 
 $(".disabled a").click(function(event) {
   event.preventDefault();
