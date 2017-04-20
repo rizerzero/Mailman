@@ -97,6 +97,7 @@
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="docs">
 
+			<h1>Template Variables</h1>
 			<h2>Usage</h2>
 
 			<p>In order to display a variable in the message, you must use double curly brackets before and after like so <code>&#123;&#123; $model->property &#125;&#125;</code>.</p>
@@ -129,6 +130,30 @@
 		    	</li>
 
 		    </ul>
+
+		    <h2>Template Tags</h2>
+
+		    <h2>50%/50% Content</h2>
+		    <p>In order to use this template directive, you must include the template partial and provide the necessary arguments.</p>
+			<p>You cannot use apostrophes in the supplied HTML</p>
+		    <p><code>&#64;include('emails.partials.halves', ['left' => '&lt;p>Left Content&lt;/p>', 'right' => '&lt;p>Right Content&lt;/p>'])</code></p>
+
+			<p><em>The above will output</em></p>
+			@include('emails.partials.halves', ['left' => '<p>Left Content</p>', 'right' => '<p>Right Content</p>'])
+
+
+			<h2>CTA Button</h2>
+			<p>Place a centered button that links to a page</p>
+			<p><strong>Arguments</strong></p>
+			<pre>
+$alignment = Table column alignment attribute. - https://www.w3schools.com/tags/att_td_align.asp
+$link = The link to navigate to
+$text = The text to use for the button
+</pre>
+<p><strong>Usage</strong></p>
+<p><code>&#64;include('emails.partials.cta-button', ['alignment' => 'center', 'link' => 'http://example.com', 'text' => 'Badass Example'])</code></p>
+
+<p>I can't get an example of this to look correctly on the actual website, but it works...make sure to double check in the message preview.</p>
 	    </div>
 	    <div role="tabpanel" class="tab-pane" id="stats">
 			{{-- @include('partials.stats.graph') --}}
@@ -156,11 +181,15 @@
 		    skin_url: '/css/tinymce',
 		    entity_encoding: "raw",
 		    menubar: false,
+		    height: "600",
 		    plugins: [
 		    	'image',
 		    	'link',
+		    	'advlist',
+		    	'lists',
+		    	'code',
 		    ],
-		    toolbar:  "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | link"
+		    toolbar:  "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | bullist | code"
 
 		 });
 	</script>

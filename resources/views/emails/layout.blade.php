@@ -110,6 +110,7 @@
         font-family: sans-serif;
         font-size: 14px;
         font-weight: normal;
+
         margin: 0;
         Margin-bottom: 15px; }
         p li,
@@ -204,6 +205,16 @@
         text-align: center;
         border: 1px solid #ccc;
       }
+
+      ul {
+        padding-left: 0;
+      }
+
+      ul li {
+        margin-bottom: 15px;
+        margin-left: 0;
+      }
+
       /* -------------------------------------
           RESPONSIVE AND MOBILE FRIENDLY STYLES
       ------------------------------------- */
@@ -263,40 +274,42 @@
         .btn-primary a:hover {
           background-color: #34495e !important;
           border-color: #34495e !important; } }
+
+
     </style>
   </head>
-  <body class="">
-    <table border="0" cellpadding="0" cellspacing="0" class="body">
+  <body class="" style="background-color: #f6f6f6;font-family: sans-serif;-webkit-font-smoothing: antialiased;font-size: 14px;line-height: 1.4;margin: 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+    <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 100%;background-color: #f6f6f6;">
       <tr>
-        <td>&nbsp;</td>
-        <td class="container">
-          <div class="content">
+        <td style="font-family: sans-serif;font-size: 16px !important;vertical-align: top;">&nbsp;</td>
+        <td class="container" style="font-family: sans-serif;font-size: 16px !important;vertical-align: top;display: block;padding: 0 !important;width: 100% !important;max-width: 580px;margin: 0 auto !important;">
+          <div class="content" style="box-sizing: border-box;display: block;margin: 0 auto;max-width: 580px;padding: 0 !important;">
 
 
-            <table class="main">
+            <table class="main" style="border-collapse: separate;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 100%;background: #fff;border-radius: 0 !important;border-left-width: 0 !important;border-right-width: 0 !important;">
 
               <!-- START MAIN CONTENT AREA -->
               <tr>
-                <td class="wrapper">
-                  <table border="0" cellpadding="0" cellspacing="0">
+                <td class="wrapper" style="font-family: sans-serif;font-size: 16px !important;vertical-align: top;box-sizing: border-box;padding: 10px !important;">
+                  <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 100%;">
                     <tr>
-                      <td>
+                      <td style="font-family: sans-serif;font-size: 16px !important;vertical-align: top;">
                         @yield('content')
-                      </td>
+                       </td>
                     </tr>
                   </table>
-                </td>
+                </div></td>
               </tr>
 
               <!-- END MAIN CONTENT AREA -->
               </table>
 
             <!-- START FOOTER -->
-            <div class="footer">
-              <table border="0" cellpadding="0" cellspacing="0">
+            <div class="footer" style="clear: both;padding-top: 10px;text-align: center;width: 100%;">
+              <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 100%;">
                 <tr>
-                  <td class="content-block">
-                    <span class="apple-link">{{ config('mail.signature.copy')}}</span>
+                  <td class="content-block" style="font-family: sans-serif;font-size: 12px;vertical-align: top;color: #999999;text-align: center;">
+                    <span class="apple-link" style="color: #999999;font-size: 12px;text-align: center;">{{ config('mail.signature.copy')}}</span>
                     <br> Don't like these emails? <a href="{{ $entry->unsubscribeLink() }}">Unsubscribe</a>.
                   </td>
                 </tr>
@@ -309,7 +322,6 @@
 <!-- END CENTERED WHITE CONTAINER --></div>
         </td>
         <td>&nbsp;</td>
-      </tr>
-    </table>
+
   </body>
 </html>

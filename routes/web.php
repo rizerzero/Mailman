@@ -14,7 +14,7 @@
 
 
 Route::group(['middleware' => 'auth'], function() {
-	Route::get('/', 'ListController@index');
+	Route::get('/', 'ListController@index')->middleware('lists-exist');
 	Route::get('/lists/create', 'ListController@create');
 	Route::post('/lists/create','ListController@store');
 	Route::post('/lists/import', 'ListController@saveEntries');

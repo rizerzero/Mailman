@@ -15,7 +15,7 @@
     <link href="/css/_bootstrap.css" rel="stylesheet" >
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/tinymce.css">
-
+    <link rel="stylesheet" href="/css/themes.css">
     @stack('header')
     <script src="/js/javascripts.js"></script>
   </head>
@@ -24,7 +24,7 @@
 
   @if(! Request::is('login'))
     <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -40,18 +40,16 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lists <span class="caret"></span></a>
               <ul class="dropdown-menu">
+
+                @foreach(App\MailList::take(5)->get()->sortBy('updated_at') as $bar)
+                  <li><a href="{{ action('ListController@single', $bar->id) }}">{{ $bar->title }}</a></li>
+                @endforeach
+                <li class="divider" role="seperator"></li>
                 <li><a href="{{ action('ListController@index') }}">View All</a></li>
                 <li><a href="{{ action('ListController@create') }}">Create New</a></li>
               </ul>
             </li>
-
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Queue <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="{{ action('QueueController@index') }}">View Queue</a></li>
-              </ul>
-            </li>
-
+            <li><a href="{{ action('QueueController@index') }}">Queue</a></li>
             <li><a href="{{ action('OptionController@index') }}">Options</a></li>
             <li><a href="/logs/">Logs</a></li>
             <li><a href="{{ action('StatController@view') }}">Stats</a></li>
@@ -79,7 +77,6 @@
     </nav>
     @endif
 <div class="container">
-  <div class="col-lg-12" >
 
       <div class="@if(Request::route()->getAction()['controller'] == 'App\Http\Controllers\PageController@index') home-message @endif">
 

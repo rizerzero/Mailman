@@ -1,7 +1,6 @@
 
 <p>Before saving these entries, please take a minute to examine the imports for any errors. If everything looks fine, click the submit button below.</p>
 
-{{ dd($data->output())}}
 <table class="table">
 	<thead>
 		<th>First Name</th>

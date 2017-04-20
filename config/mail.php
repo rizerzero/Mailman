@@ -18,11 +18,11 @@ return [
 
     'signature' => [
         'unsubscribe' => 'SubscriptionController@unsubscribe',
-        'copy' => 'TAW Global, LLC: 8135 Coxs Dr, Portage, MI 49002',
+        'copy' => 'TAW Global, LLC: 1827 S Westnedge, Kalamazoo, MI 49008',
     ],
 
 
-    'driver' => 'log',
+    'driver' => 'mailgun',
 
     /*
     |--------------------------------------------------------------------------
@@ -62,7 +62,7 @@ return [
     */
 
     'from' => [
-        'address' => 'hello@example.com',
+        'address' => 'new-transmitter@wholehousefmtransmitter.com',
         'name' => 'Tom Webb',
     ],
 

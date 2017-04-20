@@ -13,20 +13,31 @@ class ListResponse {
       // $this->output_data = $this->parseCSVString($this->input_data);
    }
 
+   private function createFromRow(array $split)
+   {
+      $obj = new \stdClass;
+      $obj->first_name = trim($split[0]);
+      $obj->last_name = trim($split[1]);
+      $obj->email = trim($split[2]);
+      $obj->segment = trim($split[3]);
+      $obj->company_name = trim($split[4]);
+      $obj->phone = trim($split[5]);
+      $obj->address = trim($split[6]);
 
+      return $obj;
+   }
    function leagueParse($data) {
 
       $reader = Reader::createFromString($data);
 
       $results = $reader->fetch();
-
+      $output = [];
       foreach ($results as $row) {
-      dd($row);
-}
-      dd($results);
+        $output[] = $this->createFromRow($row);
+      }
 
-      dd($reader);
 
+      return $output;
 
    }
    /**
@@ -42,21 +53,11 @@ class ListResponse {
         foreach($array as &$pair) {
             $split = explode(",", $pair);
 
-            $obj = new \stdClass;
-            $obj->first_name = trim($split[0]);
-            $obj->last_name = trim($split[1]);
-            $obj->email = trim($split[2]);
-            $obj->segment = trim($split[3]);
-            $obj->company_name = trim($split[4]);
-            $obj->phone = trim($split[5]);
-            $obj->address = trim($split[6]);
 
-            if($obj->first_name == 'Mack')
-              dd($split);
-            $output[] = $obj;
+
+            $output[] = $this->createFromRow($split);
         }
 
-        dd($output);
        	return $output;
    }
 
