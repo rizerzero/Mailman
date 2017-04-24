@@ -26,7 +26,7 @@ return [
     ],
 
     'sparkpost' => [
-        'secret' => 'sparkpostsecret',
+        'secret' => 'b25463832f5c1bf495c1e0eaac34bff2b4d53213',
     ],
 
     'stripe' => [

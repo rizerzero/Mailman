@@ -14,12 +14,20 @@ class Message extends Model
 	protected $table = 'messages';
 
     protected $fillable = [
-    	'name','content','subject','mail_list_id','days_offset','message_time','send_date','deliveries','spam_complaints','clicks','opens','position'
+    	'name','content','subject','mail_list_id','day_offset','message_time','send_date','deliveries','spam_complaints','clicks','opens','position'
     ];
 
     public function stats()
     {
         return $this->morphMany('App\Stat', 'statable');
+    }
+
+    public function getSendTime()
+    {
+        $offset = $this->attributes['day_offset'];
+        $time = $this->attributes['message_time'];
+
+        return '+ ' . $offset . ' days at ' . $time;
     }
     public function getStats()
     {
@@ -56,40 +64,40 @@ class Message extends Model
     }
 
     /**
-     * Iterate over the lists messages and set the position based on its siblings.
+     * Iterate over the lists messages and set the p based on its siblings.
      * For example: You have messages 1,2,3,4,5 and you set a new message to have a position of 3.
      * Well the old original messages (3,4,5) will need to have their position recalculated to (4,5,6) since (3) is now taken.
      * @return bool
      */
-    public function propagatePositions()
-    {
+    // public function propagatePositions()
+    // {
 
-    	$value = $this->attributes['position'];
+    // 	$value = $this->attributes['position'];
 
-    	$list_messages = $this->mailList->messages();
+    // 	$list_messages = $this->mailList->messages();
 
-    	$models_after_val = $list_messages->orderBy('position','asc')->where('position', '>=', $value)->where('id', '!=', $this->attributes['id'])->get();
+    // 	$models_after_val = $list_messages->orderBy('position','asc')->where('position', '>=', $value)->where('id', '!=', $this->attributes['id'])->get();
 
-    	foreach($models_after_val as $model) {
-    		$newval = $model->position + 1;
-    		$model->position = $newval;
-    		$model->save();
-    	}
+    // 	foreach($models_after_val as $model) {
+    // 		$newval = $model->position + 1;
+    // 		$model->position = $newval;
+    // 		$model->save();
+    // 	}
 
-    	$i = 1;
+    // 	$i = 1;
 
-    	$other_models = $this->mailList->messages()->orderBy('position','asc')->get();
+    // 	$other_models = $this->mailList->messages()->orderBy('position','asc')->get();
 
-    	foreach($other_models as $model) {
-    		$model->position = $i;
-    		$model->save();
+    // 	foreach($other_models as $model) {
+    // 		$model->position = $i;
+    // 		$model->save();
 
-    		$i++;
-    	}
+    // 		$i++;
+    // 	}
 
-    	return true;
+    // 	return true;
 
-    }
+    // }
 
     /**
      * Cancel all new queues for this message
@@ -136,9 +144,9 @@ class Message extends Model
 
         $time_object = Carbon::parse($this->message_time);
 
-        $add_days = ($this->position == 1) ? 0 : $this->day_offset;
+        // $add_days = ($this->position == 1) ? 0 : $this->day_offset;
 
-        $intended_first_message_time = Carbon::parse($this->mailList->campaign_start)->addDays($add_days)->setTime($time_object->hour, $time_object->minute);
+        $intended_first_message_time = Carbon::parse($this->mailList->campaign_start)->addDays($this->day_offset)->setTime($time_object->hour, $time_object->minute);
 
 
 

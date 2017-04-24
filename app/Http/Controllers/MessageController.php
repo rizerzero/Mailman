@@ -8,10 +8,33 @@ use App\Message;
 use Carbon\Carbon;
 use App\Entry;
 use Blade;
+use App\MailQueue;
+use Mail;
+use App\Mail\TestMessage;
 
 class MessageController extends Controller
 {
 
+
+    public function sendTestMessage(Request $request, $message_id)
+    {
+        try {
+            $to = $request->get('email');
+            $message = Message::whereId($message_id)->firstOrFail();
+
+
+            $entry = factory(Entry::class)->make([
+                'email' => $to
+            ]);
+
+            Mail::to($entry)->send(new TestMessage($message, $entry));
+            return redirect()->back()->withSuccess('Test message sent to queue');
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->back()->withError($e->getMessage());
+
+        }
+    }
     /**
      * Display the messages whose parent is the provided list
      * @param  integer $list The ID of the list to pull messages from

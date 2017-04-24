@@ -1,16 +1,16 @@
 <?php namespace App;
 
 use App\Stat;
+use Carbon\Carbon;
 
 trait MailWebhookTrait {
 
     private function _gStat()
     {
-        if(!is_null($this->getStats()))
-            $stat =  $this->getStats();
 
+        $stat =  $this->getStats();
 
-        if(Carbon::now()->subHours(1)->lt(Carbon::parse($stat->created_at)))
+        if(!is_null($stat) && Carbon::now()->subHours(1)->lt(Carbon::parse($stat->created_at)))
             return $stat;
 
         $nstat = new Stat;

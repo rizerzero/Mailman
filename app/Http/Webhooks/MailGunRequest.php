@@ -7,24 +7,36 @@ use App\Message;
 
 class MailGunRequest extends WebhookRequest {
 
-	public $recipient, $entry_model, $mailqueue_model, $mailmessage_model, $action, $timestamp, $r;
+	public $recipient, $entry_model, $mailqueue_model, $mailmessage_model, $action, $timestamp, $r, $header_vars;
 
 	function __construct($request)
 	{
 		parent::__construct($request);
 
 		$this->r = $this->request;
+
 		$this->recipient = $this->request['recipient'];
 		$this->action = $this->request['event'];
 		$this->timestamp = $this->request['timestamp'];
-		// $this->mailqueue_model = $this->setMailQueueModel();
-		// $this->mailmessage_model = $this->setMailMessageModel();
-		// $this->entry_model = $this->setEntryModel();
+		Log::debug('Incoming Webhook from Mailgun for ' . $this->action . ' Request Body: ' . json_encode($this->r));
+		$this->mailqueue_model = $this->setMailQueueModel();
+		$this->mailmessage_model = $this->setMailMessageModel();
+		$this->entry_model = $this->setEntryModel();
 
 	}
+
+	/**
+	 * Process the webhook event
+	 * Update models where necessary
+	 * @return string A response message in JSON for logging purposes
+	 */
 	public function process()
 	{
 
+		if(is_null($this->mailqueue_model)) {
+			Log::info($this->header_vars . ' did not find mailqueue model');
+			return 'Mailqueue Model not found in Database';
+		}
 
 		try {
 		switch ($this->action) {
@@ -33,8 +45,9 @@ class MailGunRequest extends WebhookRequest {
 
 				break;
 			case 'opened':
-				$this->mailqueue_model->hasBeenOpened();
 
+				$this->mailqueue_model->hasBeenOpened();
+				Log::info('made it here');
 				break;
 
 			case 'complained':
@@ -45,26 +58,26 @@ class MailGunRequest extends WebhookRequest {
 				$this->mailqueue_model->clickedLink();
 				break;
 			case 'bounced';
-				return 'hai';
 				$this->mailqueue_model->hardBounce();
 
 			default:
 				# code...
 				break;
 		}
+
+			return true;
 		} catch (\Exception $e) {
-			return $e->getMessage();
-		}
-
+			Log::error($e->getMessage() . ' ' . $e->getLine() . ' ' . $e->getFile());
+			return false;
+    	}
 	}
 
-	private function setEntryModel()
-	{
-		$entry_id = $this->getMailgunHeaderVars()->entry;
-
-		return Entry::whereId($entry_id)->firstOrFail();
-	}
-
+	/**
+	 * Search the input array for the MailGun Header Variables
+	 * @param  string $search The string to search the array for
+	 * @param  array $array  The input array
+	 * @return int         The key from the input array that contains the desired values
+	 */
 	private function _recusiveSearchForMailgunVars($search, $array)
 	{
 		foreach($array as $k => $ar)
@@ -74,53 +87,86 @@ class MailGunRequest extends WebhookRequest {
 					return $k;
 			}
 		}
+
+		throw new \Exception('Did not find search key');
 	}
+
+	/**
+	 * Since mailgun sends webhooks in different formats depending on the URL action
+	 * This will determine where to grab the data and return a json decoded object
+	 * containing the variables needed to tie the request back to the models
+	 * @return obj A stdClass object containing necessary properties.
+	 */
 	private function getMailgunHeaderVars()
 	{
 
-		switch ($this->action) {
-			case 'delivered':
-				$string = json_decode($this->r['message-headers']);
-				$position = $this->_recusiveSearchForMailgunVars('X-Mailgun-Variables', $string);
-				$return =  end($string[$position]);
-				break;
+			switch ($this->action) {
+				case 'delivered':
 
-			case 'bounced':
-				$string = json_decode($this->r['message-headers']);
-				$position = $this->_recusiveSearchForMailgunVars('X-Mailgun-Variables', $string);
-				$return =  end($string[$position]);
-				break;
+					$string = json_decode($this->r['message-headers']);
 
-			default:
-				$headers = $this->r;
-				$obj = new \stdClass;
-				$obj->mailqueue = $headers['mailqueue'];
-				$obj->mailmessage = $headers['mailmessage'];
-				$obj->entry = $headers['entry'];
+					$position = $this->_recusiveSearchForMailgunVars('X-Mailgun-Variables', $string);
+					$return =  end($string[$position]);
+					$this->header_vars = $return;
+					break;
 
-				$return = json_encode($obj);
-				break;
-		}
+				case 'bounced':
+					$string = json_decode($this->r['message-headers']);
+					$position = $this->_recusiveSearchForMailgunVars('X-Mailgun-Variables', $string);
 
+					$return =  end($string[$position]);
+					$this->header_vars = $return;
+					break;
 
-		return json_decode($return);
+				default:
+					$headers = $this->r;
+					$obj = new \stdClass;
+					$obj->mailqueue = $headers['mailqueue'];
+					$obj->mailmessage = $headers['mailmessage'];
+					$obj->entry = $headers['entry'];
+					$return = json_encode($obj);
+					$this->header_vars = $return;
+					break;
+			}
 
+			return json_decode($return);
 
 	}
 
+	/**
+	 * Sets the model for the mailqueue passed via header vars
+	 */
 	private function setMailQueueModel()
 	{
-		$queue_id = $this->getMailgunHeaderVars()->mailqueue;
-
-		return MailQueue::whereId($queue_id)->firstOrFail();
+		$mod = $this->getMailgunHeaderVars();
+		return MailQueue::whereId(intval($mod->mailqueue))->first();
 	}
 
+	/**
+	 * Set the model for Message passed via header vars
+	 */
 	private function setMailMessageModel()
 	{
-		$message_id = $this->getMailgunHeaderVars()->mailmessage;
-
-		return Message::whereId($message_id)->firstOrFail();
+		try {
+			$mod = $this->getMailgunHeaderVars();
+			return Message::whereId(intval($mod->mailmessage))->first();
+		} catch (\Exception $e) {
+			return null;
+		}
 	}
 
+	/**
+	 * Set the model for Entry passed via header vars
+	 */
+	private function setEntryModel()
+	{
+		try {
+			$mod = $this->getMailgunHeaderVars();
+			return Entry::whereId(intval($mod->entry))->first();
+		} catch (\Exception $e) {
+			return null;
+		}
+
+	}
 
 }

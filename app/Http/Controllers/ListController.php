@@ -48,14 +48,19 @@ class ListController extends Controller
     public function singleStats(Request $request, $id)
     {
 
+        try {
+             $model = MailList::whereId($id)->firstOrFail();
 
-        $model = MailList::whereId($id)->firstOrFail();
+            $r = $request->only(['date_start','date_end','type']);
 
-        $r = $request->only(['date_start','date_end','type']);
+            $stats = $model->stats()->fromDateRange($r['date_start'], $r['date_end'])->get();
 
-        $stats = $model->stats()->fromDateRange($r['date_start'], $r['date_end'])->get();
+            return view('lists.stats')->withList($model)->withStats($stats);
+        } catch (\Exception $e) {
+            return redirect()->action('ListController@index')->withError($e->getMessage());
+        }
 
-        return view('lists.stats')->withList($model)->withStats($stats);
+
     }
     /**
      * Show all lists
@@ -301,7 +306,7 @@ class ListController extends Controller
             $list->startCampaign();
 
 
-            return redirect()->back()->withSuccess('Campaign Started.');
+            return redirect()->back()->withSuccess('Start signal sent. Please give the application a few moments to create queue elements and set the send date for the message.');
         } catch (\Exception $e) {
 
             return redirect()->back()->withError($e->getMessage());

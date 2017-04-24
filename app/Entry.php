@@ -11,7 +11,7 @@ class Entry extends Model
     use MailWebhookTrait, Searchable;
 
     protected $fillable = [
-    	'name','email','mail_list_id','clicked_unsubscribe','deliveries','spam_complaints','clicks','opens'
+    	'name','email','mail_list_id','clicked_unsubscribe','deliveries','spam_complaints','clicks','opens', 'excessive_bounces'
     ];
 
     protected $table = 'entries';
@@ -64,14 +64,22 @@ class Entry extends Model
 
     }
 
+    public function hardBounceAction()
+    {
+        $this->attributes['clicked_unsubscribe'] = 1;
+        $this->attributes['excessive_bounces'] = 1;
+        $this->save();
+
+        return $this;
+    }
     public function scopeIsSubscribed($query)
     {
-        return $query->where('clicked_unsubscribe', '=', 0)->where('spam_complaints','=', 0);
+        return $query->where('clicked_unsubscribe', '=', 0)->where('excessive_bounces','=', 0)->where('spam_complaints','=', 0);
     }
 
     public function subscribed()
     {
-        return $this->attributes['clicked_unsubscribe'] == 0 && $this->attributes['spam_complaints'] == 0;
+        return $this->attributes['clicked_unsubscribe'] == 0 && $this->attributes['excessive_bounces'] == 0 && $this->attributes['spam_complaints'] == 0;
     }
 
     /**

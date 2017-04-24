@@ -20,12 +20,12 @@ class AppServiceProvider extends ServiceProvider
 
 
         Message::created(function($message) {
-            $message->propagatePositions();
+            // $message->propagatePositions();
         });
 
         Message::updated(function($message) {
 
-            $message->propagatePositions();
+            // $message->propagatePositions();
         });
 
         Option::created(function($option) {

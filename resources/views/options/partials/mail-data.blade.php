@@ -4,12 +4,12 @@
 		<div class="form-group">
 			<label for="mail[driver]">Driver:</label>
 			<select name="mail[driver]" class="form-control">
-				@foreach(['mailgun', 'mandrill', 'ses', 'sparkpost', 'log'] as $val)
+				@foreach(['mailgun', 'sparkpost', 'log'] as $val)
 					<option value="{{ $val }}" @if(config('mail.driver') == $val) selected="selected" @endif>{{ $val }}</option>
 				@endforeach
 
 			</select>
-			<p class="help-block">Choose the API to use when sending mail</p>
+			<p class="help-block">Choose the API to use when sending mail. A developer should change this if needed as the queue runner needs to  be reset via shell.</p>
 		</div>
 
 
@@ -22,6 +22,7 @@
 		<div class="form-group">
 			<label for="mail[from][address]">From Address: </label>
 			<input type="text" name="mail[from][address]" value="{{ config('mail.from.address') }}" class="form-control">
+			<p class="help-block">Make sure the address is permitted to send mail via the mailservice (Mailgun, SparkPost), this is different for each API.</p>
 		</div>
 
 		<div class="form-group">

@@ -25,6 +25,17 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\MailQueue::class, function(Faker\Generator $f) {
+	return [
+		'entry_id' => 1,
+		'message_id' => 1,
+		'status' => 8,
+		'Report' => 'Dummy Data',
+		'created_at' => Carbon::now()->toDateTimeString(),
+		'updated_at' => Carbon::now()->toDateTimeString(),
+
+	];
+});
 $factory->define(App\Stat::class, function(Faker\Generator $faker) {
 	$dt = $faker->dateTimeThisMonth();
 	return [

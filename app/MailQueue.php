@@ -28,7 +28,13 @@ class MailQueue extends Model
         5 => 'Campaign Stopped',
         6 => 'Delivered',
         7 => 'Paused',
+        8 => 'Generated from factory',
     ];
+
+    public function hardBounce()
+    {
+        $this->entry->hardBounceAction();
+    }
 
     public function stats()
     {
@@ -116,6 +122,7 @@ class MailQueue extends Model
         return $this->message->mailList;
     }
 
+
     /**
      * To be used with webhooks or where applicable
      * Increments the deliveries on all relationships
@@ -123,11 +130,11 @@ class MailQueue extends Model
     public function hasBeenDelivered()
     {
         $this->attributes['status'] = 6;
+        $this->attributes['report'] = 'Delivered at ' . Carbon::now()->toDateTimeString();
         $this->save();
         $this->incrementDeliveries();
         $this->entry->incrementDeliveries();
         $this->message->incrementDeliveries();
-
         return true;
     }
 

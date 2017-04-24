@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('/lists/{list}/messages/{message}', 'MessageController@edit')->middleware('list-active');
 	Route::post('/lists/{list}/messages/{message}', 'MessageController@update')->middleware('list-active');
 	Route::get('/messages/{message}/render', 'MessageController@render');
-
+	Route::post('/messages/{message}/test', 'MessageController@sendTestMessage');
 	Route::get('/stats', 'StatController@view');
 	Route::get('/queues','QueueController@index');
 	Route::get('/queues/test','QueueController@test');

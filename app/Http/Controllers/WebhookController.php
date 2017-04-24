@@ -14,7 +14,6 @@ class WebhookController extends Controller
      */
     public function processWebhook(Request $request, $service)
     {
-    	// try {
 
     		switch ($service) {
 	    		case 'mailgun':
@@ -27,10 +26,7 @@ class WebhookController extends Controller
 	    	}
 
 	    	return response()->json($handler->process());
-    	// } catch (\Exception $e) {
-    	// 	return response()->json($e->getMessage());
-    	// }
 
-    	return 'done';
+
     }
 }

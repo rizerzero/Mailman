@@ -4,7 +4,6 @@
 		<th>List</th>
 		@endif
 		<th>Entry</th>
-		<th>Pos:</th>
 		<th>Message</th>
 		<th>Status</th>
 		<th>Send Time</th>
@@ -19,7 +18,6 @@
 			<td>{{ $queue->message->mailList->title }}</td>
 			@endif
 			<td>{{ $queue->entry->email }}</td>
-			<td>{{ $queue->message->position }}</td>
 			<td>{{ $queue->message->name }}</td>
 			<td>{{ $queue->status }}</td>
 			<td>{{ $queue->message->send_date }}</td>

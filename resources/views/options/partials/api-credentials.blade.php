@@ -5,8 +5,8 @@
 		  <!-- Nav tabs -->
 		  <ul class="nav nav-tabs" role="tablist">
 		    <li role="presentation" class="active"><a href="#mailgun" aria-controls="mailgun" role="tab" data-toggle="tab">Mailgun</a></li>
-		    <li role="presentation"><a href="#mandrill" aria-controls="mandrill" role="tab" data-toggle="tab">Mandrill</a></li>
-		    <li role="presentation"><a href="#ses" aria-controls="ses" role="tab" data-toggle="tab">SES</a></li>
+{{-- 		    <li role="presentation"><a href="#mandrill" aria-controls="mandrill" role="tab" data-toggle="tab">Mandrill</a></li>
+		    <li role="presentation"><a href="#ses" aria-controls="ses" role="tab" data-toggle="tab">SES</a></li> --}}
 		    <li role="presentation"><a href="#sparkpost" aria-controls="sparkpost" role="tab" data-toggle="tab">SparkPost</a></li>
 		  </ul>
 
@@ -27,10 +27,10 @@
 
 		    </div>
 
-		    {{-- Mandrill --}}
-		    <div role="tabpanel" class="tab-pane" id="mandrill">Mandrill</div>
 
-		    {{-- SES --}}
+{{-- 		    <div role="tabpanel" class="tab-pane" id="mandrill">Mandrill</div>
+
+
 		    <div role="tabpanel" class="tab-pane" id="ses">
 		    	<div class="form-group">
 					<label for="services[ses][key]">Key:</label>
@@ -47,7 +47,7 @@
 					<input type="text" name="services[ses][region]" class="form-control" value="{{ config('services.ses.region') }}">
 				</div>
 
-		    </div>
+		    </div> --}}
 
 		    {{-- Sparkpost --}}
 		    <div role="tabpanel" class="tab-pane" id="sparkpost">

@@ -8,7 +8,7 @@
 @section('content')
 
 	<div class="page-header">
-		<h1>{{ isset($message) ? 'Edit ' . $message->name : 'Create Message' }}</h1>
+		<h1>{{ isset($message) ? 'Edit ' . $message->name  : 'Create Message' }} @if(isset($message))<a class="btn btn-success" href="{{ action("MessageController@create", $list->id) }}">Create New</a>@endif</h1>
 	</div>
 
 	@if(isset($message))
@@ -26,7 +26,8 @@
 	  <ul class="nav nav-tabs" role="tablist">
 	    <li role="presentation" class="active"><a href="#editor" aria-controls="editor" role="tab" data-toggle="tab">Editor</a></li>
 	    <li role="presentation"><a href="#docs" aria-controls="docs" role="tab" data-toggle="tab">Documentation</a></li>
-	    <li role="presentation"><a href="#stats" aria-controls="docs" role="tab" data-toggle="tab">Stats</a></li>
+	    <li role="presentation"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Stats</a></li>
+	    <li role="presentation"><a href="#test" aria-controls="test" role="tab" data-toggle="tab">Send test email</a></li>
 	  </ul>
 
 	  <!-- Tab panes -->
@@ -133,30 +134,38 @@
 
 		    <h2>Template Tags</h2>
 
-		    <h2>50%/50% Content</h2>
-		    <p>In order to use this template directive, you must include the template partial and provide the necessary arguments.</p>
-			<p>You cannot use apostrophes in the supplied HTML</p>
-		    <p><code>&#64;include('emails.partials.halves', ['left' => '&lt;p>Left Content&lt;/p>', 'right' => '&lt;p>Right Content&lt;/p>'])</code></p>
+		    <h2>Features with Image</h2>
+
+		    <p><code>&#64;include('emails.partials.features-left-radio-right')</code></p>
 
 			<p><em>The above will output</em></p>
-			@include('emails.partials.halves', ['left' => '<p>Left Content</p>', 'right' => '<p>Right Content</p>'])
-
+			<div class="well">
+			@include('emails.partials.features-left-radio-right')
+			</div>
 
 			<h2>CTA Button</h2>
 			<p>Place a centered button that links to a page</p>
 			<p><strong>Arguments</strong></p>
 			<pre>
-$alignment = Table column alignment attribute. - https://www.w3schools.com/tags/att_td_align.asp
-$link = The link to navigate to
-$text = The text to use for the button
-</pre>
-<p><strong>Usage</strong></p>
-<p><code>&#64;include('emails.partials.cta-button', ['alignment' => 'center', 'link' => 'http://example.com', 'text' => 'Badass Example'])</code></p>
+				$alignment = Table column alignment attribute. - https://www.w3schools.com/tags/att_td_align.asp
+				$link = The link to navigate to
+				$text = The text to use for the button
+			</pre>
+			<p><strong>Usage</strong></p>
+			<p><code>&#64;include('emails.partials.cta-button', ['alignment' => 'center', 'link' => 'http://example.com', 'text' => 'Badass Example'])</code></p>
 
-<p>I can't get an example of this to look correctly on the actual website, but it works...make sure to double check in the message preview.</p>
+			<p>I can't get an example of this to look correctly on the actual website, but it works...make sure to double check in the message preview.</p>
 	    </div>
+
 	    <div role="tabpanel" class="tab-pane" id="stats">
-			{{-- @include('partials.stats.graph') --}}
+	    	@if(isset($message))
+			@include('partials.stats.graph')
+			@endif
+	    </div>
+	    <div role="tabpanel" class="tab-pane" id="test">
+	    	@if(isset($message))
+			@include('partials.messages.test')
+			@endif
 	    </div>
 	  </div>
 
@@ -181,6 +190,7 @@ $text = The text to use for the button
 		    skin_url: '/css/tinymce',
 		    entity_encoding: "raw",
 		    menubar: false,
+		    force_p_newlines : false,
 		    height: "600",
 		    plugins: [
 		    	'image',

@@ -9,9 +9,14 @@ class StatController extends Controller
 {
     public function view(Request $request)
     {
-    	$r = $request->only(['date_start','date_end','type']);
+    	try {
+    		$r = $request->only(['date_start','date_end','type']);
 
-    	$stats = Stat::fromType($r['type'])->fromDateRange($r['date_start'], $r['date_end'])->take(500)->forGraphData();
-    	return view('stats.index')->withStats($stats);
+	    	$stats = Stat::fromType($r['type'])->fromDateRange($r['date_start'], $r['date_end'])->take(500)->forGraphData();
+	    	return view('stats.index')->withStats($stats);
+    	} catch (\Exception $e) {
+    		dd($e);
+    	}
+
     }
 }

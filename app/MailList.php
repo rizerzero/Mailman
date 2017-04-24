@@ -288,7 +288,7 @@ class MailList extends Model
 
       foreach($this->queues as $queue)
       {
-          $queue->delete();
+          // $queue->delete();
       }
    }
    /**
