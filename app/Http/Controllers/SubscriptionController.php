@@ -18,14 +18,18 @@ class SubscriptionController extends Controller
     	$unhashed = Helpers::urlSafeHashDecode($email);
 
     	try {
-    		$entry = Entry::whereEmail($unhashed)->get();
+    		$entries = Entry::whereEmail($unhashed)->get();
+
 
             foreach($entries as $entry)
     		  $entry->unsubscribe();
 
-    		return 'You have been removed from all of our marketing lists. We apologize for any inconvenience this may have caused you.';
+
+            return view('unsubscribe')->withMessage('You have been removed from all of our marketing lists. We apologize for any inconvenience this may have caused you.')->withEmail($unhashed)->withUnsub('true');
+
     	} catch (\Exception $e) {
-    		return 'An error occured while trying to locate your entry, please contact us at ' . config('mail.from.address') . ' to be removed from our mailing list.';
+            dd($e);
+    		return view('unsubscribe')->withMessage('An error occured, please contact us at ' . config('mail.from.address') . '.')->withEmail($unhashed)->withUnsub('false');
     	}
 
     }

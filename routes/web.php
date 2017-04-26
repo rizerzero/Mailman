@@ -47,8 +47,14 @@ Route::group(['middleware' => 'auth'], function() {
 
 	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 	Route::get('/generators/{action?}', 'GeneratorController@generate');
+
+	// Route::get('info', function() {
+	// 	phpinfo();
+	// });
+
 });
 
 Route::post('/webhooks/{service}/{action}', 'WebhookController@processWebhook');
 Route::get('/unsubscribe/{email}','SubscriptionController@unsubscribe');
 Auth::routes();
+

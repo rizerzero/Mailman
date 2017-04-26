@@ -1,3 +1,8 @@
+@if($queues->count() == 0)
+
+<p>Nothing exists yet</p>
+@else
+
 <table class="table table-condensed table-striped">
 	<thead>
 		@if(!isset($list))
@@ -13,6 +18,8 @@
 
 	<tbody>
 		@foreach($queues as $queue)
+
+
 		<tr>
 			@if(!isset($list))
 			<td>{{ $queue->message->mailList->title }}</td>
@@ -29,3 +36,5 @@
 		@endforeach
 	</tbody>
 </table>
+
+@endif

@@ -53,7 +53,7 @@ class ListController extends Controller
 
             $r = $request->only(['date_start','date_end','type']);
 
-            $stats = $model->stats()->fromDateRange($r['date_start'], $r['date_end'])->get();
+            $stats = $model->messages->stats->fromDateRange($r['date_start'], $r['date_end'])->get();
 
             return view('lists.stats')->withList($model)->withStats($stats);
         } catch (\Exception $e) {
@@ -90,7 +90,8 @@ class ListController extends Controller
             }
             $r = $request->only(['date_start','date_end','type']);
 
-            $stats = $model->stats()->fromDateRange($r['date_start'], $r['date_end'])->forGraphData();
+            $stats = $model->stats()->forGraphData();
+
 
     		return view('lists.single')->withList($model)->withEntries($entries)->withSearch($search_string)->withStats($stats);
     	} catch (\Exception $e) {
@@ -183,9 +184,8 @@ class ListController extends Controller
         try {
             $list = MailList::whereId($id)->firstOrFail();
 
-            $entries = $list->exportEntries();
 
-            return $list->exportEntries();
+            return $list->exportEntries()->download();
         } catch (\Exception $e) {
 
             return 'ERROR: ' . $e->getMessage();

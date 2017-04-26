@@ -186,6 +186,8 @@
 		});
 
 		tinymce.init({
+			relative_urls : false,
+			remove_script_host : false,
 		    selector: 'textarea',
 		    skin_url: '/css/tinymce',
 		    entity_encoding: "raw",

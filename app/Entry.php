@@ -11,7 +11,16 @@ class Entry extends Model
     use MailWebhookTrait, Searchable;
 
     protected $fillable = [
-    	'name','email','mail_list_id','clicked_unsubscribe','deliveries','spam_complaints','clicks','opens', 'excessive_bounces'
+        'first_name',
+        'last_name',
+        'email',
+        'segment',
+        'company_name',
+        'address',
+        'phone',
+        'mail_list_id',
+        'clicked_unsubscribe',
+        'excessive_bounces'
     ];
 
     protected $table = 'entries';
@@ -20,7 +29,7 @@ class Entry extends Model
      * Eloquent relationship for parent Lists
      * @return App\MailList
      */
-    public function list()
+    public function mailList()
     {
     	return $this->belongsTo('App\MailList');
     }
@@ -35,10 +44,9 @@ class Entry extends Model
         return $this->stats()->first();
     }
 
-
     public function hasComplained()
     {
-        return $this->attributes['spam_complaints'] > 0;
+        return $this->clicked_unsubscribe == 1 || $this->excessive_bounces == 1;
     }
 
 
@@ -58,8 +66,10 @@ class Entry extends Model
     public function unsubscribe()
     {
         $this->attributes['clicked_unsubscribe'] = 1;
+
         $this->save();
 
+        $this->mailList->incrementComplaints();
         return $this;
 
     }
@@ -74,12 +84,12 @@ class Entry extends Model
     }
     public function scopeIsSubscribed($query)
     {
-        return $query->where('clicked_unsubscribe', '=', 0)->where('excessive_bounces','=', 0)->where('spam_complaints','=', 0);
+        return $query->where('clicked_unsubscribe', '=', 0)->where('excessive_bounces','=', 0);
     }
 
     public function subscribed()
     {
-        return $this->attributes['clicked_unsubscribe'] == 0 && $this->attributes['excessive_bounces'] == 0 && $this->attributes['spam_complaints'] == 0;
+        return $this->attributes['clicked_unsubscribe'] == 0 && $this->attributes['excessive_bounces'] == 0;
     }
 
     /**

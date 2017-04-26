@@ -10,6 +10,7 @@
 		<p>{{ $list->description }}</p>
 	</div>
 
+
 	@include('partials.lists.controls')
 
 	<!-- Nav tabs -->
@@ -27,27 +28,23 @@
 
     	<div class="row">
 		<div class="col-sm-6">
+			<h2>Messages <small><a href="{{ action('MessageController@index', $list->id) }}">View All</a> | <a href="{{ action('MessageController@create', $list->id) }}">Create New</a></small></h2>
 			@include('partials.messages.schedule', ['messages' => $list->messages()->orderBy('position', 'asc')->get()])
+
+			<h2>Queue <small><a href="{{ action('ListController@viewQueue', $list->id) }}">View All</a></small></h2>
+			@include('partials.queues.table', ['queues' => $list->queues()->take(20)->get() ])
 		</div>
 		<div class="col-sm-6">
-			<h1>Stats <small><a href="{{ action('ListController@singleStats', $list->id) }}" target="_blank">See More</a></small></h1>
+
+			<h2>Stats <small><a href="{{ action('ListController@singleStats', $list->id) }}" target="_blank">See More</a></small></h2>
 			@include('partials.stats.graph', ['hide_controls' => true])
 		</div>
-	</div>
+		</div>
 
-		<form action="{{ action('ListController@single', $list->id) }}" method="GET">
-			<div class="form-group">
-				<label for="find_entry">Search Entries: </label>
-				<input type="text" name="find_entry" class="form-control">
-			</div>
-		</form>
+		<h2>List Entries <small><a href="{{ action('ListController@import', $list->id) }}">Import</a> | <a href="{{ action('ListController@exportListEntries', $list->id) }}">Export</a></small></h2>
 
+		@include('partials.entries.table', ['entries' => $entries ])
 
-    	@if($list->entries->count() == 0 )
-			No Entries Exist Yet
-		@else
-			@include('partials.entries.table', ['entries' => $entries ])
-		@endif
 
 		{{ $entries->appends(['find_entry' => $search])->links() }}
 

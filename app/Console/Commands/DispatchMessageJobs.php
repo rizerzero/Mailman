@@ -49,7 +49,6 @@ class DispatchMessageJobs extends Command
 
             foreach($models as $model)
             {
-
                 if( $model->mailList()->isActive() ) {
                     Log::info("Queueing $model->id");
                     $model->push();

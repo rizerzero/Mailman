@@ -47,7 +47,7 @@ class MailGunRequest extends WebhookRequest {
 			case 'opened':
 
 				$this->mailqueue_model->hasBeenOpened();
-				Log::info('made it here');
+
 				break;
 
 			case 'complained':

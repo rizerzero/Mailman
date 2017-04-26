@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Jobs\SendMessage;
 use App\MailWebhookTrait;
+use Carbon\Carbon;
 
 class MailQueue extends Model
 {
@@ -119,7 +120,7 @@ class MailQueue extends Model
      */
     public function mailList()
     {
-        return $this->message->mailList;
+        return $this->message->mailList()->first();
     }
 
 
@@ -135,6 +136,7 @@ class MailQueue extends Model
         $this->incrementDeliveries();
         $this->entry->incrementDeliveries();
         $this->message->incrementDeliveries();
+        $this->mailList()->incrementDeliveries();
         return true;
     }
 
@@ -147,6 +149,7 @@ class MailQueue extends Model
         $this->entry->unsubscribe();
         $this->entry->incrementComplaints();
         $this->message->incrementComplaints();
+        $this->mailList()->incrementComplaints();
         return true;
     }
 
@@ -159,7 +162,7 @@ class MailQueue extends Model
         $this->incrementClicks();
         $this->entry->incrementClicks();
         $this->message->incrementClicks();
-
+        $this->mailList()->incrementClicks();
         return true;
     }
 
@@ -171,7 +174,7 @@ class MailQueue extends Model
         $this->entry->incrementOpens();
         $this->incrementOpens();
         $this->message->incrementOpens();
-
+        $this->mailList()->incrementOpens();
         return true;
     }
 

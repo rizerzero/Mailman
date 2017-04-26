@@ -40,56 +40,62 @@
 </form>
 
 @endif
-{{-- {{ dd($stats->keys()->toJson()) }} --}}
-<canvas id="myChart" width="400" height="400"></canvas>
+
+@if($list->stats()->count() == 0)
+    <p>Nothing exists yet</p>
+@else
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script>
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels : {!! $stats->keys()->toJson() !!},
+                datasets: [
+                        {
+                    label: 'Clicks',
+                    data: {!! $stats->pluck('clicks')->toJson() !!},
+                    borderColor : "rgba(69,145,255,1 )",
+                    fill : false,
+
+                },
+                        {
+                    label: 'Opens',
+                    data: {!! $stats->pluck('opens')->toJson() !!},
+                    borderColor : "rgba(1,232,116,1 )",
+                    fill : false,
+
+                },
+
+                {
+                    label: 'Deliveries',
+                    data: {!! $stats->pluck('deliveries')->toJson() !!},
+                    borderColor : "rgba(202,255,11,1 )",
+                    fill : false,
+
+                },
+                {
+                    label: 'Unsubscribes',
+                    data: {!! $stats->pluck('spam_complaints')->toJson() !!},
+                    borderColor : "rgba(255,106,88,1 )",
+                    fill : false,
+
+                }]
+            },
+            options: {
+
+                scales: {
+
+                }
+            }
+
+        });
+
+    </script>
+@endif
+
 <script>
-
-$( function() {
-$( ".datepicker" ).datepicker();
-} );
-
-
-var ctx = document.getElementById("myChart");
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels : {!! $stats->keys()->toJson() !!},
-        datasets: [
-                {
-            label: 'Clicks',
-            data: {!! $stats->pluck('clicks')->toJson() !!},
-            borderColor : "rgba(161,81,230,1 )",
-            fill : false,
-
-        },
-                {
-            label: 'Opens',
-            data: {!! $stats->pluck('opens')->toJson() !!},
-            borderColor : "rgba(100,59,85,1 )",
-            fill : false,
-
-        },
-                {
-            label: 'Spam Complaints',
-            data: {!! $stats->pluck('spam_complaints')->toJson() !!},
-            borderColor : "rgba(82,103,154,1 )",
-            fill : false,
-
-        },
-        {
-            label: 'Deliveries',
-            data: {!! $stats->pluck('deliveries')->toJson() !!},
-            borderColor : "rgba(242,183,87,1 )",
-            fill : false,
-
-        }]
-    },
-    options: {
-
-        scales: {
-
-        }
-    }
-
-});
+    $( function() {
+        $( ".datepicker" ).datepicker();
+    });
 </script>

@@ -8,16 +8,17 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
-
-    <title>Starter Template for Bootstrap</title>
+    <meta name="robots" content="noindex">
+    <title>MailMan</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/_bootstrap.css" rel="stylesheet" >
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/tinymce.css">
     <link rel="stylesheet" href="/css/themes.css">
-    @stack('header')
     <script src="/js/javascripts.js"></script>
+    @stack('header')
+
   </head>
 
   <body>
@@ -26,17 +27,10 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
           <a class="navbar-brand" href="/">MailMan</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lists <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -49,14 +43,22 @@
                 <li><a href="{{ action('ListController@create') }}">Create New</a></li>
               </ul>
             </li>
+
+
             <li><a href="{{ action('QueueController@index') }}">Queue</a></li>
-            <li><a href="{{ action('OptionController@index') }}">Options</a></li>
-            <li><a href="/logs/">Logs</a></li>
             <li><a href="{{ action('StatController@view') }}">Stats</a></li>
-            <li><a href="{{ action('GeneratorController@generate') }}">Factories</a></li>
+
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Developer <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{ action('OptionController@index') }}">Options</a></li>
+                <li><a href="{{ action('GeneratorController@generate') }}">Factories</a></li>
+                <li><a href="/logs/">Logs</a></li>
+              </ul>
+            </li>
             <li>
               @if(Auth::check() )
                 <a href="{{ route('logout') }}"

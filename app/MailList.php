@@ -12,9 +12,13 @@ use App\Jobs\ImportEntries;
 use App\Jobs\StartCampaign;
 use App\Jobs\PauseCampaign;
 use App\Jobs\StopCampaign;
+use App\MailWebhookTrait;
+use App\Jobs\ResumeCampaign;
 
 class MailList extends Model
 {
+  use MailWebhookTrait;
+
    protected $fillable = [
    		'title','description', 'campaign_start','status'
    ];
@@ -29,6 +33,7 @@ class MailList extends Model
 
    public function stats()
     {
+
         return $this->morphMany('App\Stat', 'statable');
     }
 
@@ -58,8 +63,10 @@ class MailList extends Model
     */
    public function pause()
    {
-      if(! $this->isActive() )
+      if(! $this->isActive() ) {
+
         return false;
+      }
 
 
       dispatch(new PauseCampaign($this));
@@ -86,7 +93,7 @@ class MailList extends Model
       if(! $this->isPaused())
         return false;
 
-      dispatch(new ResumeCampaign($list));
+      dispatch(new ResumeCampaign($this));
 
 
 
@@ -102,7 +109,7 @@ class MailList extends Model
     public function getListOpens()
     {
 
-    return $this->messages->sum('opens');
+    return $this->stats()->sum('opens');
     }
 
    /**
@@ -111,7 +118,7 @@ class MailList extends Model
     */
    public function getListClicks()
    {
-    return $this->messages->sum('clicks');
+    return $this->stats()->sum('clicks');
    }
 
    /**
@@ -120,7 +127,7 @@ class MailList extends Model
     */
    public function getListDeliveries()
    {
-    return $this->messages->sum('deliveries');
+    return $this->stats()->sum('deliveries');
    }
 
    /**
@@ -200,18 +207,31 @@ class MailList extends Model
    public function exportEntries()
    {
 
-      $entries = $this->entries()->isSubscribed()->get()->pluck('name','email')->toArray();
+      $entries = $this->entries()->isSubscribed()->get();
 
-      $out = '';
-      foreach($entries as $key => $val) {
-          $out .= implode(",", [$key, $val]) . "\r\n";
+      $csvExporter = new \Laracsv\Export();
+      $csvExporter->beforeEach(function ($entry) {
+          $entry->opens = $entry->stats()->sum('opens');
+          $entry->spam_complaints = $entry->Stats()->sum('spam_complaints');
+          $entry->clicks = $entry->stats()->sum('clicks');
+          $entry->deliveries = $entry->stats()->sum('deliveries');
+      });
+      $csvExporter->build($entries, [
+        'first_name',
+        'last_name',
+        'email',
+        'segment',
+        'company',
+        'phone',
+        'address',
+        'opens',
+        'deliveries',
+        'clicks',
+        'spam_complaints']);
 
-      }
-
-
-     return $out;
+      return $csvExporter;
+      // return (string) $csv; // To get the CSV as string
    }
-
    /**
     * Remove all entries from the list
     * @return boolean

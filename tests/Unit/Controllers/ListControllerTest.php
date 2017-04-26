@@ -22,7 +22,7 @@ class ListControllerTest extends TestCase
 
 		$this->be(factory(User::class)->create());
 		$this->list = factory(MailList::class)->create([
-			'status' => 1
+			'status' => 2
 		]);
 
 		$this->list->entries()->save(factory(Entry::class)->make());
@@ -33,13 +33,9 @@ class ListControllerTest extends TestCase
 	public function it_can_pause_campaign()
 	{
 		$response = $this->get(action('ListController@pauseCampaign', $this->list->id));
-
 		$response->assertSessionHas('success');
-
-		$list = MailList::first();
-
+		$list = MailList::whereId($this->list->id)->first();
 		$this->assertTrue($list->isPaused());
-
 	}
 
 	/** @test */
@@ -70,6 +66,7 @@ class ListControllerTest extends TestCase
 	/** @test */
 	public function it_can_clear_list_entries()
 	{
+		$this->list->pause();
 		$response = $this->get(action('ListController@clearListEntries', $this->list->id));
 
 

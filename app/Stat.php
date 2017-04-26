@@ -23,6 +23,12 @@ class Stat extends Model
     	return $this->morphTo();
     }
 
+    public function hasComplained()
+    {
+        return $this->attributes['spam_complaints'] > 0;
+    }
+
+
     /**
      * Scope method to determine the relationships to query
      * If null - return the query.

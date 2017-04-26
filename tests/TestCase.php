@@ -6,6 +6,6 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-	protected $baseUrl = 'http://localhost';
+	protected $baseUrl = 'http://mailer.wholehousetransmitter.com';
     use CreatesApplication;
 }

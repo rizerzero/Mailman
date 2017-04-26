@@ -29,11 +29,10 @@ mix.scripts([
 	'resources/assets/js/app.js',
 ], 'public/js/javascripts.js')
 .copy('bower_components/tinymce/skins/lightgray/fonts', 'public/css/tinymce/fonts/')
-.copy('bower_components/jquery-ui/themes/base/images', 'public/css/images/')
 .sass('bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss', 'public/css/')
 .sass('resources/assets/sass/app.scss', 'public/css')
 .styles([
-'bower_components/jquery-ui/themes/base/theme.css',
+'bower_components/jquery-ui/themes/ui-lightness/theme.css',
 	'bower_components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.css',
 	'bower_components/tinymce/skins/lightgray/skin.min.css',
 	'bower_components/tinymce/skins/lightgray/content.min.css',

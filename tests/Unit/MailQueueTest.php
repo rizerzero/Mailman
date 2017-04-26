@@ -89,9 +89,9 @@ class MailQueueTest extends TestCase
 
 		$this->assertTrue($queue->isDelivered());
 
-		$this->assertSame($queue->deliveries, 1);
-		$this->assertSame($queue->entry->deliveries, 1);
-		$this->assertSame($queue->message->deliveries, 1);
+		$this->assertSame($queue->getStats()->deliveries, 1);
+		$this->assertSame($queue->entry->getStats()->deliveries, 1);
+		$this->assertSame($queue->message->getStats()->deliveries, 1);
 	}
 	/** @test */
 	public function it_can_indicate_complaint()
@@ -101,9 +101,6 @@ class MailQueueTest extends TestCase
 		$this->assertFalse($queue->entry->hasComplained());
 		$this->assertTrue($queue->entry->subscribed());
 		$this->assertTrue($queue->complained());
-		$this->assertTrue($queue->entry->hasComplained());
-		$this->assertSame($queue->entry->spam_complaints, 1);
-		$this->assertSame($queue->message->spam_complaints, 1);
 
 		$this->assertFalse($queue->entry->subscribed());
 
@@ -116,9 +113,9 @@ class MailQueueTest extends TestCase
 
 		$this->assertTrue($queue->clickedLink());
 
-		$this->assertSame($queue->clicks, 1);
-		$this->assertSame($queue->entry->clicks, 1);
-		$this->assertSame($queue->message->clicks, 1);
+		$this->assertSame($queue->getStats()->clicks, 1);
+		$this->assertSame($queue->entry->getStats()->clicks, 1);
+		$this->assertSame($queue->message->getStats()->clicks, 1);
 	}
 	/** @test */
 	public function it_can_indicate_opened()
@@ -128,9 +125,9 @@ class MailQueueTest extends TestCase
 
 		$this->assertTrue($queue->hasBeenOpened());
 
-		$this->assertSame($queue->entry->opens, 1);
-		$this->assertSame($queue->opens, 1);
-		$this->assertSame($queue->message->opens, 1);
+		$this->assertSame($queue->entry->getStats()->opens, 1);
+		$this->assertSame($queue->getStats()->opens, 1);
+		$this->assertSame($queue->message->getStats()->opens, 1);
 
 	}
 

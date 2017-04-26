@@ -18,7 +18,7 @@ return [
 
     'signature' => [
         'unsubscribe' => 'SubscriptionController@unsubscribe',
-        'copy' => 'TAW Global, LLC: 1827 S Westnedge, Kalamazoo, MI 49008',
+        'copy' => 'TAW Global, LLC: 1827 S Westnedge, Kalamazoo, MI 49008 - (877) 203-5852',
     ],
 
 
