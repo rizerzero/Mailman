@@ -17,7 +17,6 @@
         }
       body {
         background-color: #f6f6f6;
-        font-family: sans-serif;
         -webkit-font-smoothing: antialiased;
         font-size: 14px;
         line-height: 1.4;
@@ -200,9 +199,11 @@ span.yshortcuts:focus {color:#000; background-color:none; border:none;}
 </style>
 </head>
 <body class="" style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+
+
   <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;"><tr>
-<td style="font-family: sans-serif; font-size: 16px !important; vertical-align: top;" class="eoa_1ga"> </td>
-      <td class="container content eoa_1ga" width="580" style="font-family: sans-serif; font-size: 16px !important; vertical-align: top; display: block; padding: 0 !important; width: 580px !important; margin: 0 auto !important; box-sizing: border-box;">
+<td style="font-family: sans-serif; vertical-align: top;" class="eoa_1ga"> </td>
+      <td class="container content eoa_1ga" width="580" style="font-family: sans-serif;  vertical-align: top; display: block; padding: 0 !important; width: 580px !important; margin: 0 auto !important; box-sizing: border-box;">
 
           <table class="main eoa_1ga" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 580px !important; background: #fff; border-radius: 0 !important; border-left-width: 0 !important; border-right-width: 0 !important;"><tr>
 <td class="wrapper eoa_1ga" style="font-family: sans-serif; font-size: 16px !important; vertical-align: top; box-sizing: border-box; padding: 10px !important;">
@@ -223,7 +224,7 @@ span.yshortcuts:focus {color:#000; background-color:none; border:none;}
 </div>
 
       </td>
-      <td style="font-family: sans-serif; font-size: 16px !important; vertical-align: top;" class="eoa_1ga"> </td>
+      <td style="font-family: sans-serif; vertical-align: top;" class="eoa_1ga"> </td>
     </tr></table>
 </body>
 </html>
