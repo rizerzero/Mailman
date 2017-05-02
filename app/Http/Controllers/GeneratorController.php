@@ -20,7 +20,7 @@ class GeneratorController extends Controller
     		case 'entry-csv':
     			$data = factory(Entry::class, $quantity)->make()->map(function($c) {
 
-    				return implode(',', [$c->first_name, $c->last_name, $c->email, $c->segment, $c->company_name, $c->phone, $c->address]);
+    				return implode(',', [$c->first_name, $c->last_name, $c->email, $c->segment, $c->company_name, $c->phone, $c->city, $c->state, $c->zip]);
     			})->implode("\r\n");
     			break;
 

@@ -56,8 +56,9 @@
 			<input type="text" class="timepicker form-control" name="start_time" value="{{ (isset($message)) ? $message->message_time : null }}">
 			<p class="help-block">The time to begin queueing emails.</p>
 		</div>
+
 		<div class="form-group">
-			<textarea name="body">{{ (isset($message)) ? $message->content : null }}</textarea>
+			<textarea name="body" id="message-content">{{ (isset($message)) ? $message->content : null }}</textarea>
 		</div>
 
 
@@ -204,5 +205,19 @@
 		    toolbar:  "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | bullist | code"
 
 		 });
+
+		// $('form').submit(function(e) {
+		// 	e.preventDefault();
+
+		// 	var ptc = $('#plain-text');
+
+		// 	if(ptc.is(':checked')) {
+		// 		var rawtext = tinyMCE.activeEditor.getBody().textContent;
+		// 		$('#message-content').text(rawText);
+		// 	}
+
+
+		// 	this.submit();
+		// });
 	</script>
 @endsection

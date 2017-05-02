@@ -41,7 +41,7 @@ class TestMessage extends Mailable
     {
         return $this->subject($this->mailmessage->subject)
                     ->from(config('mail.from.address'), config('mail.from.name'))
-                    ->view('emails.message')
+                    ->view('emails.text')
                     ->withSwiftMessage(function($message) {
                         $message->getHeaders()
                                 ->addTextHeader('X-Mailgun-Variables', json_encode([

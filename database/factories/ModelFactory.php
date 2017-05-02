@@ -57,13 +57,14 @@ $factory->define(App\MailList::class, function(Faker\Generator $faker) {
 });
 
 $factory->define(App\Entry::class, function(Faker\Generator $faker) {
-	$noeol_addy = str_replace(PHP_EOL, ' ', $faker->address);
 	return [
 		'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'segment' => 'asdf',
         'company_name' => str_replace(',', ' ', $faker->company),
-        'address' => str_replace(',', ' ', $noeol_addy),
+        'city' => $faker->city,
+        'state' => $faker->state,
+        'zip' => $faker->postcode,
         'phone' => $faker->phoneNumber,
 		'email' => $faker->unique()->safeEmail,
 		'clicked_unsubscribe' => 0

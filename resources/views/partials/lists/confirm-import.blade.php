@@ -9,7 +9,9 @@
 		<th>Segment</th>
 		<th>Company</th>
 		<th>Phone</th>
-		<th>Address</th>
+		<th>City</th>
+		<th>State</th>
+		<th>Zip</th>
 	</thead>
 
 	<tbody>
@@ -21,7 +23,9 @@
 			<td>{{ $entry->segment }}</td>
 			<td>{{ $entry->company_name }}</td>
 			<td>{{ $entry->phone }}</td>
-			<td>{{ $entry->address }}</td>
+			<td>{{ $entry->city}}</td>
+			<td>{{ $entry->state }}</td>
+			<td>{{ $entry->zip }}</td>
 		</tr>
 		@endforeach
 	</tbody>
