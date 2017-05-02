@@ -86,7 +86,7 @@ class MessageController extends Controller
             $message = new Message;
             $last_position = $list->messages->count() + 1;
 
-	    	$message->content = $request->get('body');
+	    	$message->content = html_entity_decode($request->get('body'));
 	    	$message->name = $request->get('name');
 	    	$message->subject = $request->get('subject');
             $message->position = $last_position;
@@ -145,7 +145,9 @@ class MessageController extends Controller
 
 
 
+
         $body = $request->get('body');
+
         $list = MailList::whereId($list)->firstOrFail();
         $message = Message::whereId($message)->firstOrFail();
         $name = $request->get('name');
@@ -153,7 +155,7 @@ class MessageController extends Controller
         $position = $request->get('position');
 
 
-        $message->content = $body;
+        $message->content = html_entity_decode($body);
         $message->name = $name;
         $message->subject = $subject;
         $message->position = $position;

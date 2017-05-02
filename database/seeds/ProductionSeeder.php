@@ -14,7 +14,7 @@ class ProductionSeeder extends Seeder
         factory(\App\User::class)->create([
         	'name' => 'Mail Admin',
         	'email' => 'mail@tawglobal.com',
-        	'password' => Hash::make('secret')
+        	'password' => Hash::make('tawpass99~')
         ]);
     }
 }
