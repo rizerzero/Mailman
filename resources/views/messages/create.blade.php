@@ -58,8 +58,18 @@
 		</div>
 
 		<div class="form-group">
+			<label for="text_only"> <input type="checkbox" name="text_only" id="plain-text" @if($message->text_only) checked="checked"@endif> Text Only Email</label>
+		</div>
+		<div class="form-group">
 			<div class="alert alert-warning">Please make sure images are hosted on a reliable CDN or capable server. I have created a bucket on S3 called "mailman-media" that is meant to contain this.</div>
-			<textarea name="body">{{ (isset($message)) ? $message->content : null }}</textarea>
+
+			@if($message->text_only)
+				<textarea name="body" width="100%" id="message-content">{{ (isset($message)) ? $message->content : null }}</textarea>
+			@else
+				<textarea name="body" class="tmce" id="message-content">{{ (isset($message)) ? $message->content : null }}</textarea>
+			@endif
+
+			<input type="hidden" name="message_body" value="" id="text-only-content">
 		</div>
 
 
@@ -190,7 +200,7 @@
 		tinymce.init({
 			relative_urls : false,
 			remove_script_host : false,
-		    selector: 'textarea',
+		    selector: '.tmce',
 		    skin_url: '/css/tinymce',
 		    entity_encoding: "raw",
 		    menubar: false,
@@ -207,18 +217,22 @@
 
 		 });
 
-		// $('form').submit(function(e) {
-		// 	e.preventDefault();
+		$('form').submit(function(e) {
+			e.preventDefault();
 
-		// 	var ptc = $('#plain-text');
+			var ptc = $('#plain-text');
 
-		// 	if(ptc.is(':checked')) {
-		// 		var rawtext = tinyMCE.activeEditor.getBody().textContent;
-		// 		$('#message-content').text(rawText);
-		// 	}
-
-
-		// 	this.submit();
-		// });
+			if(ptc.is(':checked') && $('#message-content').hasClass('tmce')) {
+				var rawtext = tinyMCE.activeEditor.getContent().replace(/<[^>]*>/g, "");
+				$('#text-only-content').attr("value", rawtext);
+			} else if(! ptc.is(':checked') && $('#message-content').hasClass('tmce')) {
+				/* When the user wants a HTML email, and the TMCE editor is displayed */
+					$('#text-only-content').attr('value', tinyMCE.activeEditor.getContent());
+			} else {
+				/** Standard Text area for a text only email */
+				$('#text-only-content').attr("value", $('#message-content').val());
+			}
+			this.submit();
+		});
 	</script>
 @endsection

@@ -39,7 +39,20 @@ class TestMessage extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->mailmessage->subject)
+        if($this->mailmessage->text_only) {
+            return $this->subject($this->mailmessage->subject)
+                    ->from(config('mail.from.address'), config('mail.from.name'))
+                    ->text('emails.text')
+                    ->withSwiftMessage(function($message) {
+                        $message->getHeaders()
+                                ->addTextHeader('X-Mailgun-Variables', json_encode([
+                                        'mailqueue' => $this->mailqueue->id,
+                                        'mailmessage' => $this->mailmessage->id,
+                                        'entry' => $this->entry->id,
+                                    ]));
+                        });;
+        } else {
+            return $this->subject($this->mailmessage->subject)
                     ->from(config('mail.from.address'), config('mail.from.name'))
                     ->view('emails.message')
                     ->withSwiftMessage(function($message) {
@@ -50,6 +63,8 @@ class TestMessage extends Mailable
                                         'entry' => $this->entry->id,
                                     ]));
                         });;
+        }
+
 
     }
 }

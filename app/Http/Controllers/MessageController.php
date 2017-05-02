@@ -136,7 +136,7 @@ class MessageController extends Controller
     public function update(Request $request, $list, $message)
     {
          $this->validate($request, [
-            'body' => 'required',
+            'message_body' => 'required',
             'name' => 'required',
             'subject' => 'required',
             'start_time' => 'required',
@@ -145,23 +145,29 @@ class MessageController extends Controller
 
 
 
-
-        $body = $request->get('body');
-
+        $body = $request->get('message_body');
         $list = MailList::whereId($list)->firstOrFail();
         $message = Message::whereId($message)->firstOrFail();
         $name = $request->get('name');
         $subject = $request->get('subject');
         $position = $request->get('position');
 
+        if(!is_null($request->get('text_only'))) {
+            $message->text_only = 1;
+            $message->content = $request->get('message_body');
+        } else {
+            $message->content = html_entity_decode($body);
+            $message->text_only = 0;
+        }
 
-        $message->content = html_entity_decode($body);
+
         $message->name = $name;
         $message->subject = $subject;
         $message->position = $position;
         $message->day_offset = $request->get('day_offset');
         $message->message_time  = Carbon::parse($request->get('start_time'))->toTimeString();
         $message->save();
+
 
         return redirect()->back()->withSuccess('Message Updated!');
     }
