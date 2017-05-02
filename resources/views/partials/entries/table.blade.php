@@ -34,7 +34,7 @@
 				<td>{{ $entry->email }}</td>
 				<td>{{ $entry->segment }}</td>
 				<td>{{ $entry->company_name }}</td>
-				<td>{{ $entry->address }}</td>
+				<td>{{ $entry->address() }}</td>
 				<td>{{ $entry->phone }}</td>
 				<td>{{ ! $entry->clcked_unsubscribe }}</td>
 				<td>{{ $entry->stats->sum('deliveries') }}</td>

@@ -1,0 +1,1 @@
+{!! $mailmessage->content !!}

@@ -16,7 +16,9 @@ class Entry extends Model
         'email',
         'segment',
         'company_name',
-        'address',
+        'city',
+        'state',
+        'zip',
         'phone',
         'mail_list_id',
         'clicked_unsubscribe',
@@ -49,6 +51,11 @@ class Entry extends Model
         return $this->clicked_unsubscribe == 1 || $this->excessive_bounces == 1;
     }
 
+
+    public function address()
+    {
+        return $this->city . ', ' . $this->state . ' ' . $this->zip;
+    }
 
     /**
      * Eloquent relationship for children queue models

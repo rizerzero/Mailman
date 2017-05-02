@@ -11,7 +11,7 @@
 	<p>CSV Format should be comma delimited, with a newline character for rows. <a href="/sample.csv">Download Example File</a></p>
 
 	<p>All imported data <strong>MUST</strong> be in the order indicated below (you can use these as headers)<br>
-		<code>First Name, Last Name, Email, Segment, Company, Phone, Address</code> <br>
+		<code>First Name, Last Name, Email, Segment, Company, Phone, Address, City, State, Zip</code> <br>
 	</p>
 	<p>Remove the characters: <code>,</code>, <code>"</code>, <code>'</code> from content of columns. Do not remove the commas that are used to seperate columns.</p>
 

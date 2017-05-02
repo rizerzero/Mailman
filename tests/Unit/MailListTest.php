@@ -145,26 +145,26 @@ class MailListTest extends TestCase
 	/** @test */
 	public function it_can_save_imported_entries()
 	{
-		$csv = new ListResponse("Meredith,Rolfson,maybell63@example.net,asdf,Kiehn Group,+14764641032,2269 Laisha Forest Suite 624 Port Liam  GA 53569
-Melisa,Berge,brycen88@example.org,asdf,Windler  Donnelly and Harvey,1-413-383-0679 x169,5645 Quigley Viaduct Apt. 739 Denesiktown  HI 40194
-Jerod,Strosin,cecelia72@example.net,asdf,Batz PLC,(543) 982-7117 x836,5337 Swift Stravenue Suite 976 East Waino  LA 13547
-Candelario,Hane,tnader@example.net,asdf,Pollich  Crona and Legros,(378) 456-4224 x64844,6283 Hamill Via North Susieside  NJ 63794
-Roberto,Nader,katlynn30@example.org,asdf,Gleason  Terry and Keeling,1-714-417-2330 x130,66598 Kamryn Alley Lewton  CT 34161-0219
-Marcel,Padberg,flatley.ramiro@example.net,asdf,Kertzmann-Crooks,(701) 978-9077 x97734,420 Nola Cape Suite 038 Brionnaburgh  SD 31737
-Marisol,Torphy,arden55@example.com,asdf,Davis LLC,+1.446.998.6217,94381 Maggio Squares Suite 424 Leopoldotown  VA 57651-9559
-Tamara,Johnston,dominic87@example.net,asdf,Denesik  Lowe and Gerhold,(694) 679-2616 x314,460 Crawford Stream Hilpertside  WV 40818
-Marlee,Prohaska,norwood63@example.net,asdf,Grant  Kertzmann and Hodkiewicz,+17395846259,266 Abshire Crossroad New Timmyside  HI 76841-9256
-Ahmad,Schmitt,herzog.jaquelin@example.org,asdf,Parker  Goodwin and Zemlak,+1-737-514-9075,82549 Grady Valleys New Websterport  NY 51021-7512
-Rahul,Cartwright,cassin.prudence@example.net,asdf,Bechtelar-Waelchi,749.750.6956 x4781,888 Jany Plaza Suite 341 East Keeleyberg  HI 39377
-Yasmine,Goyette,lang.winston@example.net,asdf,Homenick-Wintheiser,346.476.7806 x4140,2242 Kellen Coves Suite 834 Alainashire  WA 35704
-Gerry,Hodkiewicz,hamill.thora@example.net,asdf,Littel Group,502.430.7148 x151,94488 Quigley Land Kerlukeborough  AZ 51510-7798
-Arno,Rosenbaum,emohr@example.com,asdf,Pagac-Bayer,1-960-340-0857,166 Schinner Rapids Port Myrnaton  SD 06313
-Susie,Lemke,bayer.dee@example.com,asdf,Paucek  Mohr and McClure,(896) 318-6142,413 Pfeffer Wall Kleinport  VT 19906
-Carli,Greenfelder,qchristiansen@example.com,asdf,Klocko  Brakus and Sauer,961-332-4685 x720,73407 Edgar Bypass Romastad  TX 37828-0446
-Monte,Ratke,dejon.medhurst@example.org,asdf,Langosh-Schuster,(927) 676-8538 x305,4171 Adolph Village West Samantha  PA 41746
-Ricardo,Lakin,gherman@example.org,asdf,Rutherford Group,562-219-9248 x3196,33752 Brianne Station Lake Newton  AZ 48200
-Palma,Haley,vernie.baumbach@example.com,asdf,Cole Ltd,(847) 253-9265 x4751,16748 Hayes Lights Grahamfurt  MI 81426
-Rowan,Rice,ibreitenberg@example.org,asdf,Koss Ltd,(338) 700-5992,94052 Jayda Prairie Davisbury  MD 99619-3800");
+		$csv = new ListResponse("Icie,Padberg,lee.bartell@example.net,asdf,Heidenreich  Corkery and Kreiger,968-287-7130,Margaretville,Hawaii,62786-3650
+Alfonso,McKenzie,dwill@example.com,asdf,Fritsch-Renner,(683) 857-4101 x512,Dustinside,Montana,87729-5644
+Yesenia,Huels,alivia.fisher@example.com,asdf,Dickens Group,+1-867-623-9812,South Jonatanton,Massachusetts,18529
+Fred,Wisoky,krajcik.joelle@example.net,asdf,Donnelly LLC,1-378-329-1073 x72230,Murazikland,Tennessee,68226-7805
+Antonette,Considine,boyle.geoffrey@example.com,asdf,Schimmel  Kub and Stanton,897-979-8890,Pearliebury,Michigan,07309-4506
+Zoey,Kutch,jayne.prohaska@example.org,asdf,Lesch  Considine and Ankunding,(870) 724-3935,North Jeromystad,Georgia,13603
+Sallie,Raynor,craig.von@example.net,asdf,Brakus Inc,1-512-771-4321 x7441,Coraport,Wisconsin,50915-0939
+Lia,Graham,tgrimes@example.org,asdf,Skiles  Corkery and Rath,1-734-260-5839 x9609,Pollichton,New Mexico,62846
+Kendall,Maggio,marques76@example.org,asdf,Parisian  Koch and Kunde,645.238.3651 x3791,Maiamouth,New Mexico,52018
+Margarette,Boyle,rohan.keely@example.net,asdf,Harris Ltd,(949) 536-8613,Ryanhaven,Nevada,68326-0846
+Ernestina,Bosco,shana.hegmann@example.com,asdf,Walter-Simonis,1-695-978-1647 x7086,East Stanleyborough,Kansas,00753-0700
+Bessie,Koelpin,cturcotte@example.net,asdf,Turner  Gleichner and Mueller,(475) 782-6192,Koelpinland,New Jersey,61682-0773
+Lamont,Hessel,jeanette13@example.com,asdf,Rogahn-Carroll,668-416-4050 x839,Kleinfurt,Kentucky,41195-8819
+Lon,Boyer,vernice.beer@example.com,asdf,Mosciski  Stokes and Sauer,775-537-8958 x166,Marcelluston,Maryland,87648
+Annabel,Wilderman,ernser.dane@example.net,asdf,Krajcik  Schroeder and Hagenes,259-880-9327 x4969,Danielberg,Nebraska,57369
+Delphia,Rutherford,polly28@example.org,asdf,Larson Inc,361-831-3444,West Estefania,Maine,65645-5720
+Zula,Hermann,lionel.monahan@example.org,asdf,Smith  Weber and Konopelski,218.329.5318 x04909,Aftonside,North Carolina,14093-1459
+Maudie,Nienow,altenwerth.brianne@example.org,asdf,Collier LLC,+1.976.467.7961,Kamronport,Wyoming,36537
+Alisha,Zboncak,waters.hershel@example.net,asdf,Grant-Powlowski,591-832-7155 x7495,North Connertown,Maine,08272-3424
+Wilfrid,Kautzer,jsenger@example.com,asdf,Maggio-Little,(675) 693-1613 x947,Hoytburgh,Ohio,53926");
 
 		$this->assertCount(20, $csv->output());
 		$this->assertSame($this->active_w_timestamps->entries()->count(), 10);

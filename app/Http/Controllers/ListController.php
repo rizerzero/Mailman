@@ -111,7 +111,7 @@ class ListController extends Controller
 
             $data = factory(Entry::class, 20)->make()->map(function($c) {
 
-                return implode(',', [$c->first_name, $c->last_name, $c->email, $c->segment, $c->company_name, $c->phone, $c->address]);
+                return implode(',', [$c->first_name, $c->last_name, $c->email, $c->segment, $c->company_name, $c->phone,  $c->city, $c->state, $c->zip]);
             })->implode("\r\n");
 
 
@@ -187,7 +187,7 @@ class ListController extends Controller
 
             return $list->exportEntries()->download();
         } catch (\Exception $e) {
-
+            dd($e);
             return 'ERROR: ' . $e->getMessage();
         }
     }

@@ -48,7 +48,9 @@ class ImportEntries implements ShouldQueue
             $listentry->segment = $entry->segment;
             $listentry->company_name = $entry->company_name;
             $listentry->phone = $entry->phone;
-            $listentry->address = $entry->address;
+            $listentry->city = $entry->city;
+            $listentry->state = $entry->state;
+            $listentry->zip = $entry->zip;
             $save[] = $listentry;
          }
       }

@@ -22,8 +22,9 @@ class ListResponse {
       $obj->segment = trim($split[3]);
       $obj->company_name = trim($split[4]);
       $obj->phone = trim($split[5]);
-      $obj->address = trim($split[6]);
-
+      $obj->city = trim($split[6]);
+      $obj->state = trim($split[7]);
+      $obj->zip = trim($split[8]);
       return $obj;
    }
    function leagueParse($data) {
