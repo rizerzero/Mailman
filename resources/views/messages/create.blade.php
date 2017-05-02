@@ -57,6 +57,7 @@
 			<p class="help-block">The time to begin queueing emails.</p>
 		</div>
 		<div class="form-group">
+			<div class="alert alert-warning">Please make sure images are hosted on a reliable CDN or capable server. I have created a bucket on S3 called "mailman-media" that is meant to contain this.</div>
 			<textarea name="body">{{ (isset($message)) ? $message->content : null }}</textarea>
 		</div>
 
