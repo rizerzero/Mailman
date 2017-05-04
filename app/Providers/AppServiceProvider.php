@@ -17,17 +17,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
-
-
-        Message::created(function($message) {
-            // $message->propagatePositions();
-        });
-
-        Message::updated(function($message) {
-
-            // $message->propagatePositions();
-        });
-
         Option::created(function($option) {
             $option->propagateChange();
         });

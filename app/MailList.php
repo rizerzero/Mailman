@@ -45,6 +45,24 @@ class MailList extends Model
 
    protected $table = 'lists';
 
+
+   public function exportQueue()
+    {
+        $queues = $this->queues()->get();
+
+      $csvExporter = new \Laracsv\Export();
+      $csvExporter->beforeEach(function ($queue) {
+        $queue->entry = $queue->entry->email;
+        $queue->message = $queue->message->name;
+      });
+      $csvExporter->build($queues, [
+        'status',
+        'report'
+    ]);
+
+      return $csvExporter;
+    }
+
    /**
     * Accessor for human friendly representation of status column
     * @return string
@@ -180,6 +198,7 @@ class MailList extends Model
 
    public function hasNewMessages()
    {
+
       return $this->queues()->whereStatus(1)->count() > 0;
 
    }
@@ -308,10 +327,7 @@ class MailList extends Model
    {
       $this->attributes['status'] = 3;
 
-      foreach($this->queues as $queue)
-      {
-          // $queue->delete();
-      }
+      $this->save();
    }
    /**
     * Determine if the campaign is active

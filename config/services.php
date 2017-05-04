@@ -15,7 +15,7 @@ return [
     */
 
     'mailgun' => [
-        'domain' => 'mailer.wholehousetransmitter.com',
+        'domain' => 'sandboxefa0fd7faeec44cc874c0ab3c3557b96.mailgun.org',
         'secret' => 'key-2773bdbcaada6fbceb64e0b6aabacc3c',
     ],
 

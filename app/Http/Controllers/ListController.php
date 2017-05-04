@@ -12,6 +12,31 @@ use App\Jobs\ResumeCampaign;
 class ListController extends Controller
 {
 
+    function __construct() {
+
+
+        $this->middleware('has-messages', ['except' => [
+            'import',
+            'importEntries',
+            'saveEntries',
+            'exportListEntries',
+            'create',
+            'deleteList',
+            'store',
+            'index',
+            'viewQueue',
+        ]]);
+
+        $this->middleware('has-entries', ['only' => [
+            'single',
+            'exportListEntries',
+            'clearListEntries',
+            'startCampaign',
+            'stopCampaign',
+            'viewQueue',
+        ]]);
+    }
+
     /**
      * Pause a campaign
      * @param  int $id The ID of the campaign to be paused
@@ -67,6 +92,7 @@ class ListController extends Controller
      */
 	public function index()
 	{
+
 		return view('lists.index')->with([
     		'lists' => MailList::all(),
     	]);
@@ -83,11 +109,17 @@ class ListController extends Controller
             $search_string = $request->get('find_entry');
 
     		$model = MailList::whereId($id)->firstOrFail();
+
+            $entries = $model->entries();
+
+
+
             if(is_null($search_string)) {
-                $entries = $model->entries()->paginate(50);
+                $entries = $entries->paginate(50);
             } else {
-               $entries =  $model->entries()->searchFor($search_string)->paginate(50);
+               $entries =  $entries->searchFor($search_string)->paginate(50);
             }
+
             $r = $request->only(['date_start','date_end','type']);
 
             $stats = $model->stats()->forGraphData();
@@ -135,8 +167,6 @@ class ListController extends Controller
 
             $list = MailList::whereId($request->get('list_id'))->firstOrFail();
 
-
-
             return view('partials.lists.confirm-import')->with([
                 'data' => new ListResponse($data),
                 'list' => $list
@@ -165,11 +195,11 @@ class ListController extends Controller
 
             $new_entry_count = count($list->saveEntries($json));
 
-            $message = 'Success! ' . $new_entry_count . ' records added to ' . $list->title;
+            $message = 'Success! ' . $new_entry_count . ' records added to ' . $list->title . '. I will not store any invalid emails, so this number may be incorrect';
 
             return redirect()->action('ListController@single', $list->id)->withSuccess($message);
         } catch (\Exception $e) {
-            dd($e);
+
             return redirect()->back()->withError($e->getMessage());
         }
 

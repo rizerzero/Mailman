@@ -60,6 +60,8 @@ class MailGunRequest extends WebhookRequest {
 			case 'bounced';
 				$this->mailqueue_model->hardBounce();
 
+			case 'dropped';
+				$this->mailqueue_model->dropped();
 			default:
 				# code...
 				break;
@@ -138,8 +140,13 @@ class MailGunRequest extends WebhookRequest {
 	 */
 	private function setMailQueueModel()
 	{
-		$mod = $this->getMailgunHeaderVars();
-		return MailQueue::whereId(intval($mod->mailqueue))->first();
+		try {
+			$mod = $this->getMailgunHeaderVars();
+			return MailQueue::whereId(intval($mod->mailqueue))->first();
+		} catch (\Exception $e) {
+			return null;
+		}
+
 	}
 
 	/**

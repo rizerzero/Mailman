@@ -27,7 +27,7 @@ class DevSeeder extends Seeder
 
             for ($i=1; $i < 7; $i++) {
                  $l->messages()->save(factory(App\Message::class)->make([
-                    'position' => 1,
+
                     'day_offset' => (6 - $i),
                     'subject' => 'This is the ' . (6 - $i) . ' message.',
                     'name' => (6 - $i) . 'th message'
@@ -47,7 +47,7 @@ class DevSeeder extends Seeder
                 'email' => 'tomfordweb@gmail.com',
             ]));
             $l->messages()->save(factory(App\Message::class)->make([
-                    'position' => 1,
+
                     'day_offset' => 1,
                     'subject' => 'This is the 1st message.',
                     'name' => '1st message'

@@ -1,1 +1,1 @@
-{!! $mailmessage->content !!}
+{!! eval('?>'.Blade::compileString($mailmessage->content)) !!}

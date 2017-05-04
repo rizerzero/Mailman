@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\MailWebhookTrait;
 use App\Searchable;
+use App\ValidatesEmailTrait;
 
 class Entry extends Model
 {
-    use MailWebhookTrait, Searchable;
+    use MailWebhookTrait, Searchable, ValidatesEmailTrait;
 
     protected $fillable = [
         'first_name',
@@ -22,7 +23,8 @@ class Entry extends Model
         'phone',
         'mail_list_id',
         'clicked_unsubscribe',
-        'excessive_bounces'
+        'excessive_bounces',
+        'dropped',
     ];
 
     protected $table = 'entries';
@@ -84,7 +86,7 @@ class Entry extends Model
     public function hardBounceAction()
     {
         $this->attributes['clicked_unsubscribe'] = 1;
-        $this->attributes['excessive_bounces'] = 1;
+        $this->attributes['dropped'] = 1;
         $this->save();
 
         return $this;

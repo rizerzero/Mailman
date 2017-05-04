@@ -30,7 +30,6 @@ class MessageController extends Controller
             Mail::to($entry)->send(new TestMessage($message, $entry));
             return redirect()->back()->withSuccess('Test message sent to queue');
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->back()->withError($e->getMessage());
 
         }
@@ -84,12 +83,10 @@ class MessageController extends Controller
 
 	    	$list = MailList::whereId($request->get('list_id'))->firstOrFail();
             $message = new Message;
-            $last_position = $list->messages->count() + 1;
 
 	    	$message->content = html_entity_decode($request->get('body'));
 	    	$message->name = $request->get('name');
 	    	$message->subject = $request->get('subject');
-            $message->position = $last_position;
             $message->day_offset = $request->get('day_offset');
             $message->message_time = $request->get('start_time');
             $list->messages()->save($message);
@@ -150,7 +147,6 @@ class MessageController extends Controller
         $message = Message::whereId($message)->firstOrFail();
         $name = $request->get('name');
         $subject = $request->get('subject');
-        $position = $request->get('position');
 
         if(!is_null($request->get('text_only'))) {
             $message->text_only = 1;
@@ -163,7 +159,6 @@ class MessageController extends Controller
 
         $message->name = $name;
         $message->subject = $subject;
-        $message->position = $position;
         $message->day_offset = $request->get('day_offset');
         $message->message_time  = Carbon::parse($request->get('start_time'))->toTimeString();
         $message->save();
@@ -182,8 +177,9 @@ class MessageController extends Controller
             $message = Message::whereId($message)->firstOrFail();
             $entry = factory(Entry::class)->make();
 
+            $view = ($message->text_only) ? 'emails.text' : 'emails.message';
             // dd( Blade::compileString($message->content));
-            return view('emails.message')->with([
+            return view($view)->with([
                 'mailmessage' => $message,
                 'entry' => $entry,
             ]);

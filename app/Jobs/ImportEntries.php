@@ -42,16 +42,23 @@ class ImportEntries implements ShouldQueue
       {
          if(is_null($this->list->entries()->whereEmail($entry->email)->first())) {
             $listentry = new Entry;
-            $listentry->first_name = $entry->first_name;
-            $listentry->last_name = $entry->last_name;
-            $listentry->email = $entry->email;
-            $listentry->segment = $entry->segment;
-            $listentry->company_name = $entry->company_name;
-            $listentry->phone = $entry->phone;
-            $listentry->city = $entry->city;
-            $listentry->state = $entry->state;
-            $listentry->zip = $entry->zip;
-            $save[] = $listentry;
+
+            if($listentry->MGValidate($entry->email)) {
+
+                $listentry->first_name = $entry->first_name;
+                $listentry->last_name = $entry->last_name;
+                $listentry->email = $entry->email;
+                $listentry->segment = $entry->segment;
+                $listentry->company_name = $entry->company_name;
+                $listentry->phone = $entry->phone;
+                $listentry->city = $entry->city;
+                $listentry->state = $entry->state;
+                $listentry->zip = $entry->zip;
+                $save[] = $listentry;
+
+            } else {
+                continue;
+            }
          }
       }
 

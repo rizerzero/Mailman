@@ -22,7 +22,7 @@ return [
     ],
 
 
-    'driver' => 'mailgun',
+    'driver' => 'log',
 
     /*
     |--------------------------------------------------------------------------
@@ -62,7 +62,7 @@ return [
     */
 
     'from' => [
-        'address' => 'radio@mailer.wholehousetransmitter.com',
+        'address' => 'questions@wholehousefmtransmitter.com',
         'name' => 'Tom Webb',
     ],
 
