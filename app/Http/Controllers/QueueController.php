@@ -8,6 +8,11 @@ use App\MailList;
 
 class QueueController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('has-queues');
+    }
 	/**
 	 * Display queue elements
 	 * @param  Request $request Includes GET Params filtering the data
@@ -28,5 +33,12 @@ class QueueController extends Controller
 
 
         $queue->incrementDeliveries();
+    }
+
+
+    public function export($list)
+    {
+        return MailList::whereId($list)->firstOrFail()->exportQueue()->download();
+
     }
 }

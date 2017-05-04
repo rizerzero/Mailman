@@ -29,9 +29,9 @@
     	<div class="row">
 		<div class="col-sm-6">
 			<h2>Messages <small><a href="{{ action('MessageController@index', $list->id) }}">View All</a> | <a href="{{ action('MessageController@create', $list->id) }}">Create New</a></small></h2>
-			@include('partials.messages.schedule', ['messages' => $list->messages()->orderBy('position', 'asc')->get()])
+			@include('partials.messages.schedule', ['messages' => $list->messages()->orderBy('send_date', 'asc')->get()])
 
-			<h2>Queue <small><a href="{{ action('ListController@viewQueue', $list->id) }}">View All</a></small></h2>
+			<h2>Queue <small><a href="{{ action('ListController@viewQueue', $list->id) }}">View All</a> | <a href="{{ action('QueueController@export', $list->id) }}">Export</a></small></h2>
 			@include('partials.queues.table', ['queues' => $list->queues()->take(20)->get() ])
 		</div>
 		<div class="col-sm-6">

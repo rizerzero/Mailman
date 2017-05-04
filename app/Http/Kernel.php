@@ -58,6 +58,10 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'has-messages' => \App\Http\Middleware\ListHasMessages::class,
         'list-active' => \App\Http\Middleware\ListActive::class,
-        'lists-exist' => \App\Http\Middleware\AppHasMailLists::class
+        'lists-exist' => \App\Http\Middleware\AppHasMailLists::class,
+        'has-entries' => \App\Http\Middleware\ListHasEntries::class,
+        'has-queues' => \App\Http\Middleware\HasQueueEntries::class
     ];
 }
+
+

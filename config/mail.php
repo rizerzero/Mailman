@@ -62,7 +62,7 @@ return [
     */
 
     'from' => [
-        'address' => 'questions@wholehousetransmitter.com',
+        'address' => 'questions@wholehousefmtransmitter.com',
         'name' => 'Tom Webb',
     ],
 

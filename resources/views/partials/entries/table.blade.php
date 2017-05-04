@@ -5,9 +5,16 @@
 	No Entries Exist Yet
 @else
 	<form action="{{ action('ListController@single', $list->id) }}" method="GET">
-		<div class="form-group">
-			<label for="find_entry">Search Entries: </label>
-			<input type="text" name="find_entry" class="form-control">
+		<div class="row">
+			<div class="form-group col-sm-10">
+				<label for="find_entry">Search Entries: </label>
+				<input type="text" name="find_entry" class="form-control">
+			</div>
+
+
+			<div class="form-group col-sm-2 text-right">
+				<input type="submit" class="btn btn-default nolabel" value="Search">
+			</div>
 		</div>
 	</form>
 
@@ -40,7 +47,7 @@
 				<td>{{ $entry->stats->sum('deliveries') }}</td>
 				<td>{{ $entry->stats->sum('opens') }}</td>
 				<td>{{ $entry->stats->sum('clicks') }}</td>
-				<td>{{ $entry->stats->sum('spam_complaints')}}</td>
+				<td>{{ $entry->stats->sum('spam_complaints') }}</td>
 				<td>{{ $entry->mailqueue->where('status', '=', 1)->count() }}</td>
 			</tr>
 		@endforeach

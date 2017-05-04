@@ -42,6 +42,7 @@ class FindCompletedCampaigns extends Command
 
         foreach($lists as $list)
         {
+
             if(! $list->hasNewMessages() && $list->isActive()) {
                 $list->markAsCompleted();
             }

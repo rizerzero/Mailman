@@ -14,7 +14,13 @@ class Message extends Model
 	protected $table = 'messages';
 
     protected $fillable = [
-    	'name','content','subject','mail_list_id','day_offset','message_time','send_date','deliveries','spam_complaints','clicks','opens','position'
+    	'name',
+        'content',
+        'subject',
+        'mail_list_id',
+        'day_offset',
+        'message_time',
+        'send_date'
     ];
 
     public function stats()
@@ -69,35 +75,7 @@ class Message extends Model
      * Well the old original messages (3,4,5) will need to have their position recalculated to (4,5,6) since (3) is now taken.
      * @return bool
      */
-    // public function propagatePositions()
-    // {
 
-    // 	$value = $this->attributes['position'];
-
-    // 	$list_messages = $this->mailList->messages();
-
-    // 	$models_after_val = $list_messages->orderBy('position','asc')->where('position', '>=', $value)->where('id', '!=', $this->attributes['id'])->get();
-
-    // 	foreach($models_after_val as $model) {
-    // 		$newval = $model->position + 1;
-    // 		$model->position = $newval;
-    // 		$model->save();
-    // 	}
-
-    // 	$i = 1;
-
-    // 	$other_models = $this->mailList->messages()->orderBy('position','asc')->get();
-
-    // 	foreach($other_models as $model) {
-    // 		$model->position = $i;
-    // 		$model->save();
-
-    // 		$i++;
-    // 	}
-
-    // 	return true;
-
-    // }
 
     /**
      * Cancel all new queues for this message
@@ -144,21 +122,24 @@ class Message extends Model
 
         $time_object = Carbon::parse($this->message_time);
 
-        // $add_days = ($this->position == 1) ? 0 : $this->day_offset;
+        $intended_first_message_time = Carbon::parse($this->mailList->campaign_start)
+                                        ->addDays($this->day_offset)
+                                        ->setTime($time_object->hour, $time_object->minute);
 
-        $intended_first_message_time = Carbon::parse($this->mailList->campaign_start)->addDays($this->day_offset)->setTime($time_object->hour, $time_object->minute);
 
+        /**
+         * uncommenting this will move messages in the past to send the next day
+         */
+        // if($intended_first_message_time->lt(Carbon::now())) {
 
+        //    $save = $list_start->addDays(1)->setTime($time_object->hour, $time_object->minute);
+        // } else {
 
-        if($intended_first_message_time->lt(Carbon::now())) {
+        //     $save = $intended_first_message_time;
+        // }
+        // $this->attributes['send_date'] = $save->toDateTimeString();
+        $this->attributes['send_date'] = $intended_first_message_time->toDateTimeString();
 
-           $save = $list_start->addDays(1)->setTime($time_object->hour, $time_object->minute);
-        } else {
-
-            $save = $intended_first_message_time;
-        }
-
-        $this->attributes['send_date'] = $save->toDateTimeString();
 
         $this->save();
 
@@ -175,28 +156,6 @@ class Message extends Model
 
     }
 
-
-    /**
-     * Scope method to find messages from a certian position
-     * @param  Builder $query    The eloquent builder
-     * @param  int $position Position to query by
-     * @return Builder           The modified query
-     */
-    public function scopeFromPosition($query, $position)
-    {
-        return $query->where('position','=', $position);
-    }
-
-    /**
-     * Scope method to order messages by their position
-     * @param  Builder $query     The eloquent builder
-     * @param  string $direction Ascending or descending
-     * @return Builder            The modified query
-     */
-    public function scopeByPosition($query, $direction = 'asc')
-    {
-    	return $query->orderBy('position', $direction);
-    }
 
     public function setContentAttribute($value)
     {

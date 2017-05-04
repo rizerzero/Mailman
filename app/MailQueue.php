@@ -18,7 +18,6 @@ class MailQueue extends Model
  		'message_id',
  		'status',
  		'report',
-        'deliveries','spam_complaints','clicks','opens'
     ];
 
     protected static $status_choices = [
@@ -32,11 +31,17 @@ class MailQueue extends Model
         8 => 'Generated from factory',
     ];
 
+
+
     public function hardBounce()
     {
         $this->entry->hardBounceAction();
     }
 
+    public function dropped()
+    {
+        $this->entry->hardBounceAction();
+    }
     public function stats()
     {
         return $this->morphMany('App\Stat', 'statable');
