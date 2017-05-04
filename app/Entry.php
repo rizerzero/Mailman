@@ -85,6 +85,15 @@ class Entry extends Model
 
     public function hardBounceAction()
     {
+        $this->attributes['excessive_bounces'] = 1;
+        $this->attributes['dropped'] = 1;
+        $this->save();
+
+        return $this;
+    }
+
+    public function droppedAction()
+    {
         $this->attributes['clicked_unsubscribe'] = 1;
         $this->attributes['dropped'] = 1;
         $this->save();

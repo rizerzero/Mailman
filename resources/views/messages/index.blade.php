@@ -11,15 +11,10 @@
 		@if(! $list->isActive() )
 			<a class="btn btn-default" href="{{ action('MessageController@create', $list->id) }}">Create New</a>
 		@endif
-		@foreach($list->messages()->byPosition()->get() as $message)
+		@foreach($list->messages()->orderBy('send_date','asc')->get() as $message)
 			@include('partials.messages.grid-element')
 
 		@endforeach
 
 	</div>
-
-
-
-
-
 @endsection

@@ -40,7 +40,7 @@ class MailQueue extends Model
 
     public function dropped()
     {
-        $this->entry->hardBounceAction();
+        $this->entry->droppedAction();
     }
     public function stats()
     {

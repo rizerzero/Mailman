@@ -55,7 +55,7 @@ class MailListTest extends TestCase
 			$datestamp = Carbon::now()->subDays(1)->toDateString();
 
 			$message = factory(Message::class)->make([
-				'position' => 0,
+
 				'message_time' => $timestamp,
 				'send_date' => $datestamp,
 
@@ -81,7 +81,6 @@ class MailListTest extends TestCase
 		$this->assertFalse($this->active->canUse());
 		$this->assertFalse($this->pending->isActive());
 		$this->assertTrue($this->active->isActive());
-
 		$this->assertSame($this->pending->getStatus(), 'Pending');
 		$this->assertSame($this->active->getStatus(), 'Active');
 		$this->assertSame($this->complete->getStatus(), 'Complete');

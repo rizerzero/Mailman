@@ -32,7 +32,7 @@ class MailGunRequest extends WebhookRequest {
 	 */
 	public function process()
 	{
-
+		return $this->r;
 		if(is_null($this->mailqueue_model)) {
 			Log::info($this->header_vars . ' did not find mailqueue model');
 			return 'Mailqueue Model not found in Database';
@@ -61,6 +61,7 @@ class MailGunRequest extends WebhookRequest {
 				$this->mailqueue_model->hardBounce();
 
 			case 'dropped';
+				Log::info('dropped event');
 				$this->mailqueue_model->dropped();
 			default:
 				# code...
@@ -113,6 +114,13 @@ class MailGunRequest extends WebhookRequest {
 					break;
 
 				case 'bounced':
+					$string = json_decode($this->r['message-headers']);
+					$position = $this->_recusiveSearchForMailgunVars('X-Mailgun-Variables', $string);
+
+					$return =  end($string[$position]);
+					$this->header_vars = $return;
+					break;
+				case 'dropped':
 					$string = json_decode($this->r['message-headers']);
 					$position = $this->_recusiveSearchForMailgunVars('X-Mailgun-Variables', $string);
 

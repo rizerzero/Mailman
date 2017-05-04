@@ -27,14 +27,14 @@ class ListController extends Controller
             'viewQueue',
         ]]);
 
-        $this->middleware('has-entries', ['only' => [
-            'single',
-            'exportListEntries',
-            'clearListEntries',
-            'startCampaign',
-            'stopCampaign',
-            'viewQueue',
-        ]]);
+        // $this->middleware('has-entries', ['only' => [
+        //     'single',
+        //     'exportListEntries',
+        //     'clearListEntries',
+        //     'startCampaign',
+        //     'stopCampaign',
+        //     'viewQueue',
+        // ]]);
     }
 
     /**

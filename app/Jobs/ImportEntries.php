@@ -57,6 +57,7 @@ class ImportEntries implements ShouldQueue
                 $save[] = $listentry;
 
             } else {
+
                 continue;
             }
          }

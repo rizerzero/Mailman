@@ -41,24 +41,24 @@ class MessageControllerTest extends TestCase
 		$response->assertSeeText('Messages for ' . $this->list->title);
 	}
 
-	public function it_can_display_a_create_page_and_save_entry()
-	{
-		// need dusk to be working
-	}
+	// public function it_can_display_a_create_page_and_save_entry()
+	// {
+	// 	// need dusk to be working
+	// }
 
-	public function it_can_edit_and_update_a_message()
-	{
-		// need dusk to be working
-	}
-	/** @test */
-	public function it_can_render_the_message()
-	{
+	// public function it_can_edit_and_update_a_message()
+	// {
+	// 	// need dusk to be working
+	// }
 
-		$message = $this->list->messages->first();
+	// public function it_can_render_the_message()
+	// {
 
-		$response = $this->get(action('MessageController@render', $message->id));
+	// 	$message = $this->list->messages->first();
 
-		$response->assertSeeText($message->subject);
+	// 	$response = $this->get(action('MessageController@render', $message->id));
 
-	}
+	// 	$response->assertSeeText($message->subject);
+
+	// }
 }
