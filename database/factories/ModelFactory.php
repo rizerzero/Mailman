@@ -53,6 +53,8 @@ $factory->define(App\MailList::class, function(Faker\Generator $faker) {
 	return [
 		'title' => $faker->words(rand(3,5), true),
 		'description' => $faker->words(rand(5,10), true),
+		'from_name' => $faker->firstName . ' ' . $faker->lastName,
+		'from_email' => $faker->email
 	];
 });
 

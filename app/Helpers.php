@@ -20,4 +20,9 @@ class Helpers {
 	{
 		return base64_decode(strtr($string, '-_,', '+/='));
 	}
+
+	public static function generateFactoryCSVString($c)
+	{
+		return implode(',', [$c->first_name, $c->last_name, $c->email, $c->segment, $c->company_name, $c->phone,  $c->city, $c->state, $c->zip]);
+	}
 }

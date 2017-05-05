@@ -12,10 +12,14 @@ class StatController extends Controller
     	try {
     		$r = $request->only(['date_start','date_end','type']);
 
-	    	$stats = Stat::fromType($r['type'])->fromDateRange($r['date_start'], $r['date_end'])->take(500)->forGraphData();
+	    	$stats = Stat::fromType($r['type'])
+                        ->fromDateRange($r['date_start'], $r['date_end'])
+                        ->take(500)
+                        ->forGraphData();
+
 	    	return view('stats.index')->withStats($stats);
     	} catch (\Exception $e) {
-    		dd($e);
+    		return redirect()->back()->withError($e->getMessage());
     	}
 
     }

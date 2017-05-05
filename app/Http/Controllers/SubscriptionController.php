@@ -25,11 +25,15 @@ class SubscriptionController extends Controller
     		  $entry->unsubscribe();
 
 
-            return view('unsubscribe')->withMessage('You have been removed from all of our marketing lists. We apologize for any inconvenience this may have caused you.')->withEmail($unhashed)->withUnsub('true');
+            return view('unsubscribe')
+                    ->withMessage('You have been removed from all of our marketing lists. We apologize for any inconvenience this may have caused you.')
+                    ->withEmail($unhashed)->withUnsub('true');
 
     	} catch (\Exception $e) {
-            dd($e);
-    		return view('unsubscribe')->withMessage('An error occured, please contact us at ' . config('mail.from.address') . '.')->withEmail($unhashed)->withUnsub('false');
+    		return view('unsubscribe')
+                    ->withMessage('An error occured, please contact us at ' . config('mail.from.address') . '.')
+                    ->withEmail($unhashed)
+                    ->withUnsub('false');
     	}
 
     }

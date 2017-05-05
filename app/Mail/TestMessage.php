@@ -28,8 +28,9 @@ class TestMessage extends Mailable
     {
         $this->mailqueue = factory(MailQueue::class)->make();
         $this->entry = $entry;
-        $this->list = factory(MailList::class)->make();
+        $this->list = $message->mailList;
         $this->mailmessage = $message;
+
     }
 
     /**
@@ -41,7 +42,7 @@ class TestMessage extends Mailable
     {
         if($this->mailmessage->text_only) {
             return $this->subject($this->mailmessage->subject)
-                    ->from(config('mail.from.address'), config('mail.from.name'))
+                    ->from($this->list->from_email, $this->list->from_name)
                     ->text('emails.text')
                     ->withSwiftMessage(function($message) {
                         $message->getHeaders()
@@ -53,7 +54,7 @@ class TestMessage extends Mailable
                         });;
         } else {
             return $this->subject($this->mailmessage->subject)
-                    ->from(config('mail.from.address'), config('mail.from.name'))
+                    ->from($this->list->from_email, $this->list->from_name)
                     ->view('emails.message')
                     ->withSwiftMessage(function($message) {
                         $message->getHeaders()

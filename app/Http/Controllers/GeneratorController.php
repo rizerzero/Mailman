@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Entry;
+use App\Helpers;
 
 class GeneratorController extends Controller
 {
@@ -18,9 +19,10 @@ class GeneratorController extends Controller
 
     	switch ($action) {
     		case 'entry-csv':
-    			$data = factory(Entry::class, $quantity)->make()->map(function($c) {
+                $helpers = new Helpers;
 
-    				return implode(',', [$c->first_name, $c->last_name, $c->email, $c->segment, $c->company_name, $c->phone, $c->city, $c->state, $c->zip]);
+    			$data = factory(Entry::class, $quantity)->make()->map(function($c) use ($helpers) {
+    				return $helpers->generateFactoryCSVString($c);
     			})->implode("\r\n");
     			break;
 

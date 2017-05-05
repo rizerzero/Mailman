@@ -41,7 +41,7 @@
 
 @endif
 
-@if($list->stats()->count() == 0)
+@if(isset($list) && $list->stats()->count() == 0)
     <p>Nothing exists yet</p>
 @else
     <canvas id="myChart" width="400" height="400"></canvas>

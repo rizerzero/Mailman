@@ -55,6 +55,10 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function showRegistrationForm()
+    {
+        return redirect('/');
+    }
     /**
      * Create a new user instance after a valid registration.
      *
@@ -63,10 +67,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        return redirect('/');
+
+        // return User::create([
+        //     'name' => $data['name'],
+        //     'email' => $data['email'],
+        //     'password' => bcrypt($data['password']),
+        // ]);
     }
 }

@@ -17,7 +17,9 @@ class GeneratorControllerTest extends TestCase
 
  			$this->be(factory(\App\User::class)->create());
 
- 		$response = $this->get('/generators/entry-csv?amount=15');
+ 		$response = $this->get(action('GeneratorController@generate', 'entry-csv'));
+
+
  		$response->assertSeeText('@example.');
  		$response->assertDontSee('Invalid Arguments');
 

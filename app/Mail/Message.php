@@ -25,7 +25,7 @@ class Message extends Mailable
     {
         $this->mailqueue = $mailqueue;
         $this->mailmessage = $mailqueue->message;
-        $this->list = $mailqueue->message->list;
+        $this->list = $mailqueue->message->mailList;
         $this->entry = $mailqueue->entry;
 
     }
@@ -40,7 +40,7 @@ class Message extends Mailable
 
         if($this->mailmessage->text_only) {
             return $this->subject($this->mailmessage->subject)
-                    ->from(config('mail.from.address'), config('mail.from.name'))
+                    ->from($this->list->from_email, $this->list->from_name)
                     ->text('emails.text')
                     ->withSwiftMessage(function($message) {
                         $message->getHeaders()
@@ -52,7 +52,7 @@ class Message extends Mailable
                         });;
         } else {
             return $this->subject($this->mailmessage->subject)
-                    ->from(config('mail.from.address'), config('mail.from.name'))
+                    ->from($this->list->from_email, $this->list->from_name)
                     ->view('emails.message')
                     ->withSwiftMessage(function($message) {
                         $message->getHeaders()

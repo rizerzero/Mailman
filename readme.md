@@ -18,6 +18,7 @@ Configuration
 
 NPM Configuration - You need to change this by hand on each installation. I have included dev.package.json and prod.package.json to display the necessary changes for NPM workers. Make sure to update only the "scripts" block, and keep any packages that are required in package.json
 
+Please note, all NPM commands run on vagrant need to have the --no-bin-links flag applied to this. This is because vagrant does not allow symlinks.
 
 * npm install (must run with --no-bin-links command on Homestead)
 * bower install
@@ -29,3 +30,6 @@ Changelog
 
 1.1
 * Added MG email validation for imported entries.
+* Removed ability to register new users
+* Cleaned up controller logic and added validation for POST requests
+

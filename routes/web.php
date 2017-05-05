@@ -42,7 +42,6 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('/messages/{message}/test', 'MessageController@sendTestMessage');
 	Route::get('/stats', 'StatController@view');
 	Route::get('/queues','QueueController@index');
-	Route::get('/queues/test','QueueController@test');
 	Route::get('/options', 'OptionController@index');
 	Route::post('/options','OptionController@update');
 

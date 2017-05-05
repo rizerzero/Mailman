@@ -15,6 +15,17 @@
 			<textarea name="description" class="form-control" placeholder="Description">{{ (isset($list)) ? $list->description : null }}</textarea>
 		</div>
 
+		<div class="col-sm-6 form-group">
+			<label for="">Reply to Email:</label>
+			<input type="text" class="form-control" name="from_email" value="{{ (isset($list)) ? $list->from_email : null }}">
+			<p class="help-block">The email that the customer can reply to in the message.</p>
+		</div>
+
+		<div class="col-sm-6 form-group">
+			<label for="">Reply to Name:</label>
+			<input type="text" class="form-control" name="from_name" value="{{ (isset($list)) ? $list->from_name : null }}">
+			<p class="help-block">The name that displays of "who sent the email".</p>
+		</div>
 
 
 		<div class="form-group col-sm-12">

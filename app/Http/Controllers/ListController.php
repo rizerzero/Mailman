@@ -8,6 +8,7 @@ use App\ListResponse;
 use App\Entry;
 use App\Stat;
 use App\Jobs\ResumeCampaign;
+use App\Helpers;
 
 class ListController extends Controller
 {
@@ -27,14 +28,13 @@ class ListController extends Controller
             'viewQueue',
         ]]);
 
-        // $this->middleware('has-entries', ['only' => [
-        //     'single',
-        //     'exportListEntries',
-        //     'clearListEntries',
-        //     'startCampaign',
-        //     'stopCampaign',
-        //     'viewQueue',
-        // ]]);
+        $this->middleware('has-entries', ['only' => [
+            'exportListEntries',
+            'clearListEntries',
+            'startCampaign',
+            'stopCampaign',
+            'viewQueue',
+        ]]);
     }
 
     /**
@@ -49,9 +49,13 @@ class ListController extends Controller
             $list->pause();
 
 
-            return redirect()->back()->withSuccess($list->name . ' paused! No more messages will be sent! When resuming the list the send date will be recalculated');
+            return redirect()
+                    ->back()
+                    ->withSuccess($list->name . ' paused! No more messages will be sent! When resuming the list the send date will be recalculated');
         } catch (\Exception $e) {
-            return redirect()->back()->withError($e->getMessage());
+            return redirect()
+                    ->back()
+                    ->withError($e->getMessage());
         }
     }
 
@@ -64,9 +68,14 @@ class ListController extends Controller
             $list = MailList::whereId($id)->firstOrFail();
 
             dispatch(new ResumeCampaign($list));
-            return redirect()->back()->withSuccess('Campaign successfully resumed!');
+
+            return redirect()
+                    ->back()
+                    ->withSuccess('Campaign successfully resumed!');
         } catch (\Exception $e) {
-            return redirect()->back()->withError($e->getMessage());
+            return redirect()
+                    ->back()
+                    ->withError($e->getMessage());
         }
     }
 
@@ -87,6 +96,7 @@ class ListController extends Controller
 
 
     }
+
     /**
      * Show all lists
      */
@@ -107,13 +117,9 @@ class ListController extends Controller
     {
     	try {
             $search_string = $request->get('find_entry');
-
     		$model = MailList::whereId($id)->firstOrFail();
 
             $entries = $model->entries();
-
-
-
             if(is_null($search_string)) {
                 $entries = $entries->paginate(50);
             } else {
@@ -125,7 +131,12 @@ class ListController extends Controller
             $stats = $model->stats()->forGraphData();
 
 
-    		return view('lists.single')->withList($model)->withEntries($entries)->withSearch($search_string)->withStats($stats);
+    		return view('lists.single')
+                    ->withList($model)
+                    ->withEntries($entries)
+                    ->withSearch($search_string)
+                    ->withStats($stats);
+
     	} catch (\Exception $e) {
     		return redirect()->back()->withError($e->getMessage());
     	}
@@ -141,9 +152,11 @@ class ListController extends Controller
         try {
             $model = MailList::whereId($id)->firstOrFail();
 
-            $data = factory(Entry::class, 20)->make()->map(function($c) {
+            $helpers = new Helpers;
 
-                return implode(',', [$c->first_name, $c->last_name, $c->email, $c->segment, $c->company_name, $c->phone,  $c->city, $c->state, $c->zip]);
+            $data = factory(Entry::class, 20)->make()->map(function($c) use($helpers) {
+
+                return $helpers->generateFactoryCSVString($c);
             })->implode("\r\n");
 
 
@@ -162,6 +175,10 @@ class ListController extends Controller
     public function importEntries(Request $request) {
 
         try {
+
+            $this->validate($request, [
+                'csv_data' => 'required'
+            ]);
 
              $data = trim($request->get('csv_data'));
 
@@ -189,6 +206,10 @@ class ListController extends Controller
     {
 
         try {
+             $this->validate($request, [
+                'csv_json' => 'required'
+            ]);
+
             $json = json_decode($request->get('csv_json'));
 
             $list = MailList::whereId($request->get('list_id'))->firstOrFail();
@@ -252,11 +273,15 @@ class ListController extends Controller
             $this->validate($request, [
                 'title' => 'required|unique:lists,title,'. $list->id,
                 'description' => 'required',
+                'from_name' => 'required',
+                'from_email' => 'required|email'
             ]);
 
 
             $list->title = $request->get('title');
             $list->description = $request->get('description');
+            $list->from_name = $request->get('from_name');
+            $list->from_email = $request->get('from_email');
             $list->campaign_start = $request->get('campaign_start');
 
             $list->save();
@@ -306,14 +331,17 @@ class ListController extends Controller
 
             $this->validate($request, [
                 'title' => 'required|unique:lists',
-                'description' => 'required'
+                'description' => 'required',
+                'from_name' => 'required',
+                'from_email' => 'required|email'
             ]);
 
             $list = new MailList;
 
             $list->title = $request->get('title');
             $list->description = $request->get('description');
-
+            $list->from_name = $request->get('from_name');
+            $list->from_email = $request->get('from_email');
             $list->save();
 
             return redirect()->action('ListController@single', $list->id)->withSuccess($list->title. ' was successfully created! You may now import entries');
