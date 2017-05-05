@@ -87,7 +87,7 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => 'administrator@tawglobal.com',
+            'to' => '',
         ],
 
         'slack' => [
@@ -145,7 +145,7 @@ return [
             /*
              * The number of days for which daily backups must be kept.
              */
-            'keepDailyBackupsForDays' => 16,
+            'keepDailyBackupsForDays' => 7,
 
             /*
              * The number of weeks for which one weekly backup must be kept.
