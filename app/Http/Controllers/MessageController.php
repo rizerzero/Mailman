@@ -21,7 +21,7 @@ class MessageController extends Controller
         try {
 
             $this->validate($request, [
-                'email' => 'required|email'
+                'email' => 'required' # Should not use email validation on this as some "Test" emails (email on acid) use subdomain mapping etc.
             ]);
 
             $to = $request->get('email');
