@@ -10,6 +10,7 @@ use App\Message;
 use App\MailList;
 use App\MailQueue;
 use App\Entry;
+use Blade;
 
 class TestMessage extends Mailable
 {
@@ -40,8 +41,11 @@ class TestMessage extends Mailable
      */
     public function build()
     {
+        $subject = eval('?>'.Blade::compileString($this->mailmessage->subject));
+
+
         if($this->mailmessage->text_only) {
-            return $this->subject($this->mailmessage->subject)
+            return $this->subject($subject)
                     ->from($this->list->from_email, $this->list->from_name)
                     ->text('emails.text')
                     ->withSwiftMessage(function($message) {
@@ -53,7 +57,7 @@ class TestMessage extends Mailable
                                     ]));
                         });;
         } else {
-            return $this->subject($this->mailmessage->subject)
+            return $this->subject($subject)
                     ->from($this->list->from_email, $this->list->from_name)
                     ->view('emails.message')
                     ->withSwiftMessage(function($message) {

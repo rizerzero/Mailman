@@ -38,8 +38,10 @@ class Message extends Mailable
     public function build()
     {
 
+        $subject = eval('?>'.Blade::compileString($mailmessage->subject));
+
         if($this->mailmessage->text_only) {
-            return $this->subject($this->mailmessage->subject)
+            return $this->subject($subject)
                     ->from($this->list->from_email, $this->list->from_name)
                     ->text('emails.text')
                     ->withSwiftMessage(function($message) {
@@ -51,7 +53,7 @@ class Message extends Mailable
                                     ]));
                         });;
         } else {
-            return $this->subject($this->mailmessage->subject)
+            return $this->subject($subject)
                     ->from($this->list->from_email, $this->list->from_name)
                     ->view('emails.message')
                     ->withSwiftMessage(function($message) {
