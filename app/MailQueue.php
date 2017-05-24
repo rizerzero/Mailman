@@ -233,7 +233,10 @@ class MailQueue extends Model
      */
     public function push()
     {
+        // Log::info("Queueing $model->id");
     	dispatch(new SendMessage($this));
+
+        $this->processingCompleted();
     }
 
     /**

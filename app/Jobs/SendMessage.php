@@ -42,11 +42,5 @@ class SendMessage implements ShouldQueue
         } catch (\Exception $e) {
             $this->mailqueue->processingError($e);
         }
-
-        $this->mailqueue->processingCompleted();
-
-
-
-
     }
 }
