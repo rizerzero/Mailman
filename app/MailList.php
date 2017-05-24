@@ -214,7 +214,11 @@ class MailList extends Model
    public function saveEntries(array $entries)
    {
 
-      dispatch(new ImportEntries($this, $entries));
+      $chunk = array_chunk($entries, 200);
+      foreach($chunk as $chu) {
+          dispatch(new ImportEntries($this, $chu));
+      }
+
 
       return $entries;
    }

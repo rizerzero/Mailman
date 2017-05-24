@@ -32,7 +32,7 @@ class MailGunRequest extends WebhookRequest {
 	 */
 	public function process()
 	{
-		return $this->r;
+
 		if(is_null($this->mailqueue_model)) {
 			Log::info($this->header_vars . ' did not find mailqueue model');
 			return 'Mailqueue Model not found in Database';
