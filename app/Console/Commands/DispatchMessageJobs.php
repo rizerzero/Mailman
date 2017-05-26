@@ -43,22 +43,24 @@ class DispatchMessageJobs extends Command
         $messages = Message::readyToSend()->get(); // get all messages that are ready to be sent
 
 
+
         foreach($messages as $message) { //iterate over every individual message
 
 
             $models = $message->mailQueues()->getNew()->get(); //push the queue models attached to "ready to send messages" to queue driver
 
 
-
             foreach($models as $model)
             {
                 if( $model->mailList()->isActive() ) {
-
-
-
+                    $model->processingStart();
                     $model->push();
                 }
             }
+
+            $message->hasBeenQueued();
         }
+
+        die();
     }
 }

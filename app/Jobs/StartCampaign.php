@@ -33,15 +33,37 @@ class StartCampaign implements ShouldQueue
      */
     public function handle()
     {
-      $this->list->status = 2;
-      $this->list->campaign_start = Carbon::now()->toDateString();
-      $this->list->save();
-
       Log::info('Starting Campaign: ' . $this->list->title);
 
-       foreach($this->list->messages as $message) {
-          $message->createSendDate();
-          $this->list->queueMessages($message);
-       }
+
+
+
+      try {
+          $this->list->status = 2;
+          $this->list->campaign_start = Carbon::now()->toDateString();
+          $this->list->save();
+
+
+          foreach($this->list->messages as $message) {
+            if(! $message->been_queued) {
+
+                $message->createSendDate();
+                dispatch(new QueueListMessages($this->list, $message));
+
+            }
+
+         }
+      } catch (\Exception $e) {
+
+          $this->list->status = 1;
+          $this->list->campaign_start = null;
+          $this->list->save();
+
+          // return the exception so it can be handled by logging, frontend, etc.
+          // How this is displayed depends on queue driver.
+          throw $e;
+
+      }
+
     }
 }

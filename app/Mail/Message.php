@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\MailQueue;
+use Blade;
 
 class Message extends Mailable
 {
@@ -38,7 +39,7 @@ class Message extends Mailable
     public function build()
     {
 
-        $subject = eval('?>'.Blade::compileString($mailmessage->subject));
+        $subject = eval('?>'.Blade::compileString($this->mailmessage->subject));
 
         if($this->mailmessage->text_only) {
             return $this->subject($subject)

@@ -322,6 +322,10 @@ class MailList extends Model
       return true;
    }
 
+   public function scopeGetActive($query)
+   {
+      return $query->whereStatus(2);
+   }
    /**
     * Indicate that the list has been completed and perform necessary cleanup methods
     * to model and its children
@@ -366,10 +370,12 @@ class MailList extends Model
 
       foreach($this->entries as $entry)
       {
+          if(! $entry->mailQueue()->where('message_id', '=', $message->id)->first()) {
             $queued = new MailQueue;
             $queued->message_id = $message->id;
             $queued->status = 1;
             $entry->mailQueue()->save($queued);
+          }
       }
 
 

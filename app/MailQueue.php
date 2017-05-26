@@ -202,6 +202,7 @@ class MailQueue extends Model
     	return $query->whereStatus(1);
     }
 
+
     public function scopeFromList($query, $id)
     {
         if($id == 0)
@@ -231,12 +232,19 @@ class MailQueue extends Model
      * Depending on app configuration this will most likely start sending messages.
      * @return [type] [description]
      */
-    public function push()
+    public function push($delay = true)
     {
-        // Log::info("Queueing $model->id");
-    	dispatch(new SendMessage($this));
+        if($delay) {
+            $job = (new SendMessage($this))
+                ->delay(Carbon::now()->addMinutes(10));
+        } else {
+            $job = (new SendMessage($this));
+        }
 
-        $this->processingCompleted();
+
+    	dispatch($job);
+
+
     }
 
     /**
@@ -272,7 +280,7 @@ class MailQueue extends Model
     public function processingCompleted()
     {
     	$this->attributes['status'] = 2;
-        $this->attributes['report'] = 'Message sent to Queue';
+        $this->attributes['report'] = 'Message Sent';
     	$this->save();
 
     	return $this;

@@ -20,9 +20,15 @@ class Message extends Model
         'mail_list_id',
         'day_offset',
         'message_time',
-        'send_date'
+        'send_date',
+        'been_queued',
     ];
 
+    public function hasBeenQueued()
+    {
+        $this->attributes['been_queued'] = 1;
+        $this->save();
+    }
     public function stats()
     {
         return $this->morphMany('App\Stat', 'statable');
@@ -66,7 +72,7 @@ class Message extends Model
      */
     public function scopeReadyToSend($query)
     {
-        return $query->where('send_date', '<', Carbon::now()->toDateTimeString());
+        return $query->where('send_date', '<', Carbon::now()->toDateTimeString())->where('been_queued','=', 0);
     }
 
     /**

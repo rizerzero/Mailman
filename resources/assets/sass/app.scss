@@ -49,3 +49,13 @@ body {
  .ui-widget-header .ui-icon {
  	background-image: none !important;
  }
+
+
+.table .table-legend {
+	background: #efefef;
+	border-bottom: 2px solid #ddd;
+	text-align: center
+}
+ .table .border-right {
+ 	border-right: 2px solid #ddd;
+ }

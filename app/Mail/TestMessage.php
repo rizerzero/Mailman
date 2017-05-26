@@ -44,6 +44,7 @@ class TestMessage extends Mailable
         $subject = eval('?>'.Blade::compileString($this->mailmessage->subject));
 
 
+
         if($this->mailmessage->text_only) {
             return $this->subject($subject)
                     ->from($this->list->from_email, $this->list->from_name)

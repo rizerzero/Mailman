@@ -17,6 +17,7 @@ class SendMessage implements ShouldQueue
 
     private $mailqueue, $email, $name;
 
+    public $tries = 2;
     /**
      * Create a new job instance.
      *
@@ -36,11 +37,17 @@ class SendMessage implements ShouldQueue
      */
     public function handle()
     {
+        if(! in_array($this->mailqueue->status, [2,4])) {
+            try {
 
-        try {
-            Mail::to($this->email, $this->name)->send(new Message($this->mailqueue));
-        } catch (\Exception $e) {
-            $this->mailqueue->processingError($e);
-        }
+                Mail::to($this->email, $this->name)->send(new Message($this->mailqueue));
+                $this->mailqueue->processingCompleted();
+            } catch (\Exception $e) {
+                $this->mailqueue->processingError($e);
+            }
+
+         }
+
+
     }
 }
