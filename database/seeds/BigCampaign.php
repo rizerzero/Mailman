@@ -16,7 +16,7 @@ class BigCampaign extends Seeder
     public function run()
     {
         $lists = factory(MailList::class, 1)->create()->each(function($list) {
-        	$list->entries()->saveMany(factory(Entry::class, 20000)->make());
+        	$list->entries()->saveMany(factory(Entry::class, 2000)->make());
         	$list->messages()->saveMany(factory(Message::class, 5)->make([
         		'text_only' => 1,
         		'content' => 'this is the content',
