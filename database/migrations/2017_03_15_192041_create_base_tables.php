@@ -34,7 +34,7 @@ class CreateBaseTables extends Migration
             $table->string('phone')->nullable();
             $table->boolean('clicked_unsubscribe')->default(0);
             $table->boolean('excessive_bounces')->default(0);
-            $table->integer('mail_list_id');
+            $table->integer('mail_list_id')->index();
             $table->timestamps();
         });
 
@@ -47,7 +47,7 @@ class CreateBaseTables extends Migration
             $table->integer('day_offset')->nullable();
             $table->time('message_time');
             $table->timestamp('send_date')->nullable();
-            $table->integer('mail_list_id');
+            $table->integer('mail_list_id')->index();
             $table->timestamps();
         });
 

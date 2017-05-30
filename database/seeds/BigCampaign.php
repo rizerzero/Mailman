@@ -16,7 +16,7 @@ class BigCampaign extends Seeder
     public function run()
     {
         $lists = factory(MailList::class, 1)->create()->each(function($list) {
-        	$list->entries()->saveMany(factory(Entry::class, 2000)->make());
+        	$list->entries()->saveMany(factory(Entry::class, 10000)->make());
         	$list->messages()->saveMany(factory(Message::class, 5)->make([
         		'text_only' => 1,
         		'content' => 'this is the content',
@@ -32,7 +32,7 @@ class BigCampaign extends Seeder
         	$message->message_time = Carbon::now()->addMinutes($add_minutes)->toTimeString();
         	$message->save();
 
-        	$add_minutes++;
+        	$add_minutes = $add_minutes + 20;
         }
     }
 }

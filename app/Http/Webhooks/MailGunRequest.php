@@ -18,7 +18,7 @@ class MailGunRequest extends WebhookRequest {
 		$this->recipient = $this->request['recipient'];
 		$this->action = $this->request['event'];
 		$this->timestamp = $this->request['timestamp'];
-		Log::debug('Incoming Webhook from Mailgun for ' . $this->action . ' Request Body: ' . json_encode($this->r));
+		// Log::debug('Incoming Webhook from Mailgun for ' . $this->action . ' Request Body: ' . json_encode($this->r));
 		$this->mailqueue_model = $this->setMailQueueModel();
 		$this->mailmessage_model = $this->setMailMessageModel();
 		$this->entry_model = $this->setEntryModel();

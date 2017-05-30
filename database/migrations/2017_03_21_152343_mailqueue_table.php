@@ -15,9 +15,9 @@ class MailqueueTable extends Migration
     {
         Schema::create('mailqueues', function($table) {
             $table->increments('id');
-            $table->integer('entry_id');
-            $table->integer('message_id');
-            $table->integer('status');
+            $table->integer('entry_id')->index();
+            $table->integer('message_id')->index();
+            $table->integer('status')->index();
             $table->longText('report')->nullable();
             $table->timestamps();
 

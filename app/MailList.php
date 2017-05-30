@@ -266,6 +266,24 @@ class MailList extends Model
       foreach($this->entries as $entry)
          $entry->delete();
 
+
+      return true;
+   }
+
+   public function clearMessages()
+   {
+    foreach($this->messages as $message)
+      $message->delete();
+
+    return true;
+
+   }
+
+   public function clearQueues()
+   {
+      foreach($this->queues as $q)
+        $q->delete();
+
       return true;
    }
 
@@ -368,7 +386,7 @@ class MailList extends Model
       if(! $this->isActive() )
          throw new QueueListException('A list must be active before queueing messages');
 
-      foreach($this->entries as $entry)
+      foreach($this->entries()->lockForUpdate()->get() as $entry)
       {
           if(! $entry->mailQueue()->where('message_id', '=', $message->id)->first()) {
             $queued = new MailQueue;

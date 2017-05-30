@@ -303,6 +303,8 @@ class ListController extends Controller
             $list = MailList::whereId($id)->firstOrFail();
 
             $list->clearList();
+            $list->clearMessages();
+            $list->clearQueues();
 
             $list->delete();
 
