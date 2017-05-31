@@ -40,15 +40,13 @@ class DispatchMessageJobs extends Command
      */
     public function handle()
     {
-        $messages = Message::readyToSend()->orderBy('send_date', 'ASC')->take(1)->get(); // get all messages that are ready to be sent
+        $messages = Message::readyToSend()->orderBy('send_date', 'ASC')->get(); // get all messages that are ready to be sent
 
 
         foreach($messages as $message) { //iterate over every individual message
 
-            $message->hasBeenQueued();
 
-            $models = $message->mailQueues()->getNew()->lockForUpdate()->get(); //push the queue models attached to "ready to send messages" to queue driver
-
+            $models = $message->mailQueues()->getNew()->get(); //push the queue models attached to "ready to send messages" to queue driver
 
 
             foreach($models as $model)

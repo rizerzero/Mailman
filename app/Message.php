@@ -64,7 +64,12 @@ class Message extends Model
         return $this->hasMany('App\MailQueue');
     }
 
-
+    public function markAsReady()
+    {
+        $this->attributes['ready_to_send'] = 1;
+        $this->save();
+        return true;
+    }
     /**
      * Scope messages where the send date is less than the current timestamp
      * @param  Builder $query Eloquent query builder
@@ -72,9 +77,17 @@ class Message extends Model
      */
     public function scopeReadyToSend($query)
     {
-        return $query->where('send_date', '<', Carbon::now()->toDateTimeString())->where('been_queued','=', 0);
+        return $query->where('send_date', '<', Carbon::now()->toDateTimeString())->where('been_queued','=', 1)->where('ready_to_send','=', 1);
     }
 
+    public function scopeReadyToQueue($query)
+    {
+        return $query->where('send_date', '<', Carbon::now()->toDateTimeString())->where('been_queued', '=', 0)->where('ready_to_send', '=', 0);
+    }
+    public function scopeBeenQueued($query)
+    {
+        return $query->where('been_queued', '=', 1);
+    }
     /**
      * Iterate over the lists messages and set the p based on its siblings.
      * For example: You have messages 1,2,3,4,5 and you set a new message to have a position of 3.

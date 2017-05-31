@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\DispatchMessageJobs::class,
         \App\Console\Commands\FindCompletedCampaigns::class,
-        \App\Console\Commands\CatchRunawayLists::class
+        \App\Console\Commands\CatchRunawayLists::class,
+        \App\Console\Commands\Push2Queue::class
     ];
 
     /**
@@ -26,8 +27,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('dispatch-messages')->everyMinute();
+
         // $schedule->command('runaways');
+        $schedule->command('dispatch-messages')->everyTenMinutes()->withoutOverlapping();
+        $schedule->command('push2queue')->everyFiveMinutes()->withoutOverlapping();
         $schedule->command('backup:run')->daily();
         $schedule->command('backup:clean')->weekly();
         $schedule->command('finish-campaigns')->everyTenMinutes();

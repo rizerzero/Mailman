@@ -31,6 +31,8 @@ class MailList extends Model
       5 => 'Paused',
    ];
 
+   protected $table = 'lists';
+
    public function stats()
     {
 
@@ -41,10 +43,6 @@ class MailList extends Model
     {
         return $this->stats()->first();
     }
-
-
-   protected $table = 'lists';
-
 
    public function exportQueue()
     {
@@ -199,6 +197,15 @@ class MailList extends Model
    public function hasNewMessages()
    {
 
+      if(! $this->isActive() )
+        return true;
+      $last_message = $this->messages()->orderBy('send_date', 'desc')->first();
+
+      $has_sent_last = Carbon::parse($last_message->send_date)->lt(Carbon::now());
+
+      if($this->queues()->whereStatus(1)->count() == 0 && $has_sent_last)
+        return false;
+      return true;
       return $this->queues()->whereStatus(1)->count() > 0;
 
    }
@@ -281,10 +288,12 @@ class MailList extends Model
 
    public function clearQueues()
    {
-      foreach($this->queues as $q)
+    foreach($this->messages as $message) {
+      foreach($message->mailQueues as $q)
         $q->delete();
+    }
 
-      return true;
+
    }
 
   /**
@@ -386,17 +395,17 @@ class MailList extends Model
       if(! $this->isActive() )
          throw new QueueListException('A list must be active before queueing messages');
 
-      foreach($this->entries()->lockForUpdate()->get() as $entry)
+      foreach($this->entries()->get() as $entry)
       {
-          if(! $entry->mailQueue()->where('message_id', '=', $message->id)->first()) {
+          $no_records = MailQueue::whereEntryId($entry->id)->whereMessageId($message->id)->count() == 0;
+
+          if($no_records) {
             $queued = new MailQueue;
             $queued->message_id = $message->id;
             $queued->status = 1;
             $entry->mailQueue()->save($queued);
           }
       }
-
-
    }
 }
 

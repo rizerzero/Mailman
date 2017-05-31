@@ -48,7 +48,7 @@ class StartCampaign implements ShouldQueue
             if(! $message->been_queued) {
 
                 $message->createSendDate();
-                dispatch(new QueueListMessages($this->list, $message));
+
 
             }
 

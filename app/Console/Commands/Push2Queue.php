@@ -3,16 +3,17 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Message;
 use App\MailList;
 
-class FindCompletedCampaigns extends Command
+class Push2Queue extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'finish-campaigns';
+    protected $signature = 'push2queue';
 
     /**
      * The console command description.
@@ -38,13 +39,19 @@ class FindCompletedCampaigns extends Command
      */
     public function handle()
     {
-        $lists = MailList::getActive()->get();
+        $lists = MailList::whereStatus(2)->get(); // get all messages that are ready to be sent
 
         foreach($lists as $list)
         {
-            if(! $list->hasNewMessages()) {
-                $list->markAsCompleted();
+            $messages = $list->messages()->readyToQueue()->get();
+
+            foreach($messages as $message) {
+                $message->mailList->queueMessages($message);
+                $message->hasBeenQueued();
+                $message->markAsReady();
             }
+
         }
+
     }
 }
