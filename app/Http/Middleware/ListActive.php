@@ -16,7 +16,7 @@ class ListActive
      */
     public function handle($request, Closure $next)
     {
-
+        return $next($request);
         $list = MailList::whereId($request->list)->firstOrFail();
 
         if($list->isActive())

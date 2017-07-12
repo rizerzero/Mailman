@@ -41,9 +41,8 @@ class TestMessage extends Mailable
      */
     public function build()
     {
-        $subject = eval('?>'.Blade::compileString($this->mailmessage->subject));
 
-
+        $subject = $this->mailmessage->subject;
 
         if($this->mailmessage->text_only) {
             return $this->subject($subject)

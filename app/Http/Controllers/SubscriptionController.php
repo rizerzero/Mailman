@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helpers;
 use App\Entry;
+use Auth;
 
 class SubscriptionController extends Controller
 {
@@ -18,6 +19,7 @@ class SubscriptionController extends Controller
     	$unhashed = Helpers::urlSafeHashDecode($email);
 
     	try {
+
     		$entries = Entry::whereEmail($unhashed)->get();
 
 

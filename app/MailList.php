@@ -395,7 +395,7 @@ class MailList extends Model
       if(! $this->isActive() )
          throw new QueueListException('A list must be active before queueing messages');
 
-      foreach($this->entries()->get() as $entry)
+      foreach($this->entries()->where('clicked_unsubscribe','=', 0)->get() as $entry)
       {
           $no_records = MailQueue::whereEntryId($entry->id)->whereMessageId($message->id)->count() == 0;
 

@@ -57,8 +57,11 @@ class ImportEntries implements ShouldQueue
 
             } else {
 
-                continue;
+               Log::critical('MG Validation failed');
+               continue;
             }
+         } else {
+            Log::critical('Entry already exists')
          }
       }
 

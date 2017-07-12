@@ -1,7 +1,7 @@
 <div class="row">
 
 	<div class="col-md-8 col-md-offset-2">
-		<h2>@if(! $message->mailList->isActive())<a href="{{ action('MessageController@edit', ['list' => $message->mailList->id, 'message' => $message->id]) }}">@endif{{ $message->name }}@if(! $message->mailList->isActive())</a>@endif</h2>
+		<h2><a href="{{ action('MessageController@edit', ['list' => $message->mailList->id, 'message' => $message->id]) }}">{{ $message->name }}</a></h2>
 		<p><strong>Subject:</strong> {{ $message->subject }}</p>
 		<iframe src="{{ action('MessageController@render', $message->id )}}" width="100%" height="500px"></iframe>
 

@@ -78,7 +78,6 @@ class Entry extends Model
 
         $this->save();
 
-        $this->mailList->incrementComplaints();
         return $this;
 
     }

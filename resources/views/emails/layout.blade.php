@@ -218,7 +218,7 @@ span.yshortcuts:focus {color:#000; background-color:none; border:none;}
             <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;"><tr>
 <td class="content-block" style="font-family: sans-serif; font-size: 12px; vertical-align: top; color: #999999; text-align: center;">
                   <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">TAW Global, LLC: 1827 S Westnedge, Kalamazoo, MI 49008 - (877) 203-5852</span>
-                  <br /> Don't like these emails? <a href="http://mailer.wholehousetransmitter.com/unsubscribe/cGNvcndpbkBleGFtcGxlLm5ldA,," style="color: #999999; text-decoration: underline; font-size: 12px; text-align: center;">Unsubscribe</a>.
+                  <br /> Don't like these emails? <a href="{{ $entry->unsubscribeLink() }}" style="color: #999999; text-decoration: underline; font-size: 12px; text-align: center;">Unsubscribe</a>.
                 </td>
               </tr></table>
 </div>
