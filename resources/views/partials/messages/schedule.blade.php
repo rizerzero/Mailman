@@ -24,10 +24,7 @@
 		<tbody>
 			@foreach($messages->sortBy('send_date') as $message)
 			<tr>
-				<td>
-					@if(! $list->isActive() )<a href="{{ action('MessageController@edit', ['list' => $message->mailList->id, 'message' => $message->id]) }}">@endif
-					{{ $message->name }}
-					@if(! $list->isActive() )</a>@endif</td>
+				<td><a href="{{ action('MessageController@edit', ['list' => $message->mailList->id, 'message' => $message->id]) }}">{{ $message->name }}</a></td>
 				<td>{{ $message->subject }}</td>
 				<td>{{ $message->getSendTime() }}</td>
 				<td class="border-right">{{ $message->send_date }}</td>
@@ -41,5 +38,3 @@
 		</tbody>
 	</table>
 @endif
-
-

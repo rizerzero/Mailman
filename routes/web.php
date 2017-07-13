@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('/lists/{list}/messages/', 'MessageController@index');
 	Route::get('/lists/{list}/messages/create', 'MessageController@create')->middleware('list-active');
 	Route::post('/lists/{list}/messages/create','MessageController@save')->middleware('list-active');
-	Route::get('/lists/{list}/messages/{message}', 'MessageController@edit')->middleware('list-active');
+	Route::get('/lists/{list}/messages/{message}', 'MessageController@edit');
 	Route::post('/lists/{list}/messages/{message}', 'MessageController@update')->middleware('list-active');
 	Route::get('/messages/{message}/render', 'MessageController@render');
 	Route::post('/messages/{message}/test', 'MessageController@sendTestMessage');
@@ -57,4 +57,3 @@ Route::group(['middleware' => 'auth'], function() {
 Route::post('/webhooks/{service}/{action}', 'WebhookController@processWebhook');
 Route::get('/unsubscribe/{email}','SubscriptionController@unsubscribe');
 Auth::routes();
-

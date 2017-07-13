@@ -345,7 +345,7 @@ class MailList extends Model
 
 
       dispatch(new StartCampaign($this));
-
+      dd('should not see this');
       return true;
    }
 
@@ -392,10 +392,16 @@ class MailList extends Model
     */
    public function queueMessages(Message $message)
    {
+     dd('hi');
       if(! $this->isActive() )
          throw new QueueListException('A list must be active before queueing messages');
+        $entries = $this->entries()->where('clicked_unsubscribe','=', 0)->get();
 
-      foreach($this->entries()->where('clicked_unsubscribe','=', 0)->get() as $entry)
+        $entries = $entries->unique('email');
+
+
+
+      foreach($entries as $entry)
       {
           $no_records = MailQueue::whereEntryId($entry->id)->whereMessageId($message->id)->count() == 0;
 
@@ -408,4 +414,3 @@ class MailList extends Model
       }
    }
 }
-

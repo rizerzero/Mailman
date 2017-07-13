@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\MailList;
 use App\Entry;
-
+use Log;
 class ImportEntries implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -38,7 +38,10 @@ class ImportEntries implements ShouldQueue
     public function handle()
     {
       $save = [];
-      foreach($this->data as $entry)
+
+      $entries = collect($this->data);
+
+      foreach($entries->unique('email') as $entry)
       {
          if(is_null($this->list->entries()->whereEmail($entry->email)->first())) {
             $listentry = new Entry;
@@ -61,11 +64,12 @@ class ImportEntries implements ShouldQueue
                continue;
             }
          } else {
-            Log::critical('Entry already exists')
+            Log::critical('Entry already exists');
          }
       }
 
 
       $this->list->entries()->saveMany($save);
     }
-}
+
+  }
