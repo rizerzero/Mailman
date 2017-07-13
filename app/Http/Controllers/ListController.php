@@ -238,7 +238,7 @@ class ListController extends Controller
 
             return $list->exportEntries()->download();
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             return 'ERROR: ' . $e->getMessage();
         }
     }

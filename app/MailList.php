@@ -345,7 +345,7 @@ class MailList extends Model
 
 
       dispatch(new StartCampaign($this));
-      dd('should not see this');
+      // dd('should not see this');
       return true;
    }
 
@@ -392,7 +392,7 @@ class MailList extends Model
     */
    public function queueMessages(Message $message)
    {
-     dd('hi');
+    //  dd('hi');
       if(! $this->isActive() )
          throw new QueueListException('A list must be active before queueing messages');
         $entries = $this->entries()->where('clicked_unsubscribe','=', 0)->get();
